@@ -3,6 +3,10 @@
 import { z } from "zod";
 import validator from "validator";
 import { redirect } from "next/navigation";
+import db from "../lib/db";
+import crypto from "crypto";
+import { setSession } from "../lib/session";
+import twilio from "twilio";
 
 const phoneSchema = z
   .string()
@@ -11,11 +15,46 @@ const phoneSchema = z
     (phone) => validator.isMobilePhone(phone, "en-CA"),
     "Wrong phone format."
   );
-const tokenSchema = z.coerce.number().min(100000).max(999999);
+
+async function tokenExists(token: number) {
+  const exists = await db.sMSToken.findUnique({
+    where: {
+      token: token.toString(),
+    },
+    select: {
+      id: true,
+    },
+  });
+  return Boolean(exists);
+}
+
+const tokenSchema = z.coerce
+  .number()
+  .min(100000)
+  .max(999999)
+  .refine(tokenExists, "This token does not exists.");
 
 interface ActionState {
   token: boolean;
 }
+
+async function createToken() {
+  const token = crypto.randomInt(100000, 999999).toString();
+  const exists = await db.sMSToken.findUnique({
+    where: {
+      token,
+    },
+    select: {
+      id: true,
+    },
+  });
+  if (exists) {
+    return createToken();
+  } else {
+    return token;
+  }
+}
+
 export async function smsLogin(prevState: ActionState, formData: FormData) {
   const phone = formData.get("phone");
   const token = formData.get("token");
@@ -28,12 +67,44 @@ export async function smsLogin(prevState: ActionState, formData: FormData) {
         error: result.error.flatten(),
       };
     } else {
-      console.log("token true");
-      console.log(formData);
+      await db.sMSToken.deleteMany({
+        where: {
+          user: {
+            phone: result.data,
+          },
+        },
+      });
+      const token = await createToken();
+
+      await db.sMSToken.create({
+        data: {
+          token,
+          user: {
+            connectOrCreate: {
+              where: {
+                phone: result.data,
+              },
+              create: {
+                username: crypto.randomBytes(10).toString("hex"),
+                phone: result.data,
+              },
+            },
+          },
+        },
+      });
+      const client = twilio(
+        process.env.TWILIO_ACCOUNT_SID,
+        process.env.TWILIO_AUTH_TOKEN
+      );
+      await client.messages.create({
+        body: `Your Cloud Monet verification code is: ${token}`,
+        from: process.env.TWILIO_PHONE_NUMBER!,
+        to: process.env.MY_PHONE_NUMBER!,
+      });
       return { token: true };
     }
   } else {
-    const result = tokenSchema.safeParse(formData.get("token"));
+    const result = await tokenSchema.safeParseAsync(formData.get("token"));
     if (!result.success) {
       console.log("false", result.error.flatten(), formData);
       return {
@@ -41,7 +112,24 @@ export async function smsLogin(prevState: ActionState, formData: FormData) {
         error: result.error.flatten(),
       };
     } else {
-      redirect("/");
+      const token = await db.sMSToken.findUnique({
+        where: {
+          token: result.data.toString(),
+        },
+        select: {
+          id: true,
+          userId: true,
+        },
+      });
+      if (token) {
+        await setSession(token.userId);
+        await db.sMSToken.delete({
+          where: {
+            id: token.id,
+          },
+        });
+      }
+      redirect("/profile");
     }
   }
 }
