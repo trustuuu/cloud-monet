@@ -9,27 +9,26 @@ const publicOnlyUrls: Routes = {
   "/login": true,
   "/sms": true,
   "/create-account": true,
+  "/github/start": true,
+  "/github/complete": true,
 };
 export async function middleware(request: NextRequest) {
   const session = await getSession();
   const exists = publicOnlyUrls[request.nextUrl.pathname];
+
   if (!session.id) {
     if (!exists) {
+      console.log("not exist");
       return NextResponse.redirect(new URL("/", request.url));
     }
   } else {
     if (exists) {
+      console.log("exist");
       return NextResponse.redirect(new URL("/products", request.url));
     }
-  }
-
-  if (request.nextUrl.pathname === "/profile") {
-    return Response.json({
-      errro: "you are not allowed here",
-    });
   }
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
