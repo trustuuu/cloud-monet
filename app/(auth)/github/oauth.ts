@@ -1,4 +1,4 @@
-import db from "../lib/db";
+import db from "../../lib/db";
 
 export const getAccessToken = async (code: string) => {
   const accessTokenParams = new URLSearchParams({

@@ -3,9 +3,9 @@
 import { z } from "zod";
 import validator from "validator";
 import { redirect } from "next/navigation";
-import db from "../lib/db";
+import db from "../../lib/db";
 import crypto from "crypto";
-import { setSession } from "../lib/session";
+import { setSession } from "../../lib/session";
 import twilio from "twilio";
 
 const phoneSchema = z

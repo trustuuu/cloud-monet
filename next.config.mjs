@@ -1,5 +1,17 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        hostname: "avatars.githubusercontent.com",
+      },
+      // {
+      //   hostname: "avatars.githubusercontent.com"
+      // }
+    ],
+    //domains: ["avatars.githubusercontent.com"],
+  },
+};
 // const nextConfig = {
 //     reactStrictMode: true,
 //     swcMinify: true,

@@ -6,13 +6,13 @@ import {
   PASSWORD_MIN_LENGTH,
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
-} from "../lib/constants";
-import db from "../lib/db";
+} from "../../lib/constants";
+import db from "../../lib/db";
 import { cookies } from "next/headers";
 import { getIronSession } from "iron-session";
 import { env } from "process";
 import { redirect } from "next/navigation";
-import getSession from "../lib/session";
+import getSession from "../../lib/session";
 
 // const checkUsernameExists = async (username: string) => {
 //   const user = await db.user.findUnique({
