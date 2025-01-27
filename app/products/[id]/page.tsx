@@ -69,9 +69,7 @@ export default async function ProductDetail({
       <div className="relative border-neutral-700 bg-neutral-600 aspect-square border-4 rounded-md flex justify-center">
         <Image
           fill
-          style={{
-            objectFit: "contain", // cover, contain, none
-          }}
+          className="object-contain"
           src={`${product.photo}/public`}
           alt={product.title}
         />

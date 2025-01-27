@@ -87,7 +87,7 @@ export default function AddProduct() {
             <>
               <PhotoIcon className="w-20" />
               <div className="text-neutral-400 text-sm">
-                Click to upload a picture errors={state?.fieldErrors.title}
+                Click to upload a picture {state?.fieldErrors.photo}
               </div>
             </>
           ) : null}
