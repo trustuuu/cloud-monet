@@ -12,7 +12,8 @@ import { cookies } from "next/headers";
 import { getIronSession } from "iron-session";
 import { env } from "process";
 import { redirect } from "next/navigation";
-import getSession from "../../lib/session";
+import getSession, { setSession } from "../../lib/session";
+import { setServers } from "dns";
 
 // const checkUsernameExists = async (username: string) => {
 //   const user = await db.user.findUnique({
@@ -100,7 +101,6 @@ export async function createAccount(prevState: any, formData: FormData) {
   const results = await formSchema.safeParseAsync(data);
 
   if (!results.success) {
-    console.log(results.error.flatten());
     return results.error.flatten();
   } else {
     const hashedPW = await bcrypt.hash(results.data.password, 12);
@@ -114,10 +114,10 @@ export async function createAccount(prevState: any, formData: FormData) {
         id: true,
       },
     });
-    const session = await getSession();
-    //@ts-ignore
-    session.id = user.id;
-    await session.save();
+    await setSession(user.id);
+    // const session = await getSession();
+    // session.id = user.id;
+    // await session.save();
     redirect("/profile");
   }
 }

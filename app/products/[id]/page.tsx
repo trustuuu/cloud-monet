@@ -72,7 +72,7 @@ export default async function ProductDetail({
           style={{
             objectFit: "contain", // cover, contain, none
           }}
-          src={product.photo}
+          src={`${product.photo}/public`}
           alt={product.title}
         />
       </div>

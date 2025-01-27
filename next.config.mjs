@@ -5,9 +5,9 @@ const nextConfig = {
       {
         hostname: "avatars.githubusercontent.com",
       },
-      // {
-      //   hostname: "avatars.githubusercontent.com"
-      // }
+      {
+        hostname: "imagedelivery.net",
+      },
     ],
     //domains: ["avatars.githubusercontent.com"],
   },
