@@ -7,9 +7,9 @@ import { PhotoIcon } from "@heroicons/react/20/solid";
 import { useFormState } from "react-dom";
 import { useState } from "react";
 import { fileSchema } from "../products/schema";
-import { getUploadUrl } from "../add/action";
 import { EditProductType } from "../products/[id]/edit/page";
 import { PhotoState, updateProduct } from "../products/[id]/edit/actions";
+import { getUploadUrl } from "../add/products/action";
 
 interface ProductProps {
   product: EditProductType;
@@ -20,7 +20,6 @@ export default function ProductEditForm({ product }: ProductProps) {
   const [uploadUrl, setUpLoadUrl] = useState("");
   const [imageId, setImageId] = useState("");
   const oldPhotoID = product!.photo?.split("/").pop();
-  console.log("product", product);
   const onPhotoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { files },
@@ -39,7 +38,6 @@ export default function ProductEditForm({ product }: ProductProps) {
     }
     //make url in local
     const previewUrl = URL.createObjectURL(file);
-    console.log(preview, previewUrl);
     setPreview(previewUrl);
     const { success, result } = await getUploadUrl();
 

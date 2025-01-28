@@ -20,9 +20,9 @@ async function getProduct(id: number) {
   return product;
 }
 export default async function Modal({ params }: { params: { id: string } }) {
+  const id = Number(params.id);
   if (isNaN(id)) {
     // if (params.id === "add") {
-    //   console.log("params.id", params.id);
     //   return redirect("/products/add");
     // }
     return notFound();

@@ -8,7 +8,6 @@ const db = new PrismaClient();
 //       phong: "7789874144",
 //     },
 //   });
-//   console.log("user", user);
 // }
 
 // test();

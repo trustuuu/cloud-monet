@@ -17,7 +17,6 @@ export default function Login() {
   //         password: "12345",
   //       }),
   //     });
-  //     console.log(await response.json());
   //   };
 
   const [state, action] = useFormState(login, null);

@@ -7,6 +7,7 @@ import { formatToDallar } from "@/app/lib/utils";
 import FormButton from "@/app/components/button";
 import { delProduct, getProduct } from "../productDML";
 import { Console } from "console";
+import { revalidateTag } from "next/cache";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const id = Number(params.id);
@@ -36,6 +37,7 @@ export default async function ProductDetail({
   params: { id: string };
 }) {
   const id = Number(params.id);
+
   if (isNaN(id)) {
     return notFound();
   }
@@ -48,11 +50,15 @@ export default async function ProductDetail({
   const onDelete = async () => {
     "use server";
     await delProduct(id);
-    redirect("/products");
+    revalidateTag("product");
+    revalidateTag("products");
+    redirect("/home");
   };
 
   const onEdit = async () => {
     "use server";
+    revalidateTag("product");
+    revalidateTag("products");
     redirect(`/products/${id}/edit`);
   };
 
