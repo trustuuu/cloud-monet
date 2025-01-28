@@ -7,6 +7,7 @@ import db from "@/app/lib/db";
 
 export interface PhotoState {
   photo: string;
+  changed: boolean;
 }
 
 export async function updateProduct(prevState: PhotoState, formData: FormData) {
@@ -18,15 +19,20 @@ export async function updateProduct(prevState: PhotoState, formData: FormData) {
     description: formData.get("description"),
   };
 
-  if (prevState.photo) {
-    const responseDel = await delPhoto(prevState!.photo);
-    console.log("responseDel", responseDel);
-  }
-
   const results = await productSchema.safeParseAsync(data);
   if (!results.success) {
+    console.log(
+      "Photo Edit results.error.flatten()",
+      results.error.flatten(),
+      data
+    );
     return results.error.flatten();
   } else {
+    if (prevState.photo && prevState.changed) {
+      const responseDel = await delPhoto(prevState!.photo);
+      console.log("responseDel", responseDel);
+    }
+
     const session = await getSession();
     if (session.id) {
       const product = await db.product.update({
@@ -43,7 +49,7 @@ export async function updateProduct(prevState: PhotoState, formData: FormData) {
           id: true,
         },
       });
-      revalidateTag("product");
+      revalidateTag("product-detail");
       revalidateTag("products");
       redirect(`/home`); ///${product.id}`);
     }

@@ -5,7 +5,7 @@ import Input from "./input";
 import { PhotoIcon } from "@heroicons/react/20/solid";
 
 import { useFormState } from "react-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fileSchema } from "../products/schema";
 import { EditProductType } from "../products/[id]/edit/page";
 import { PhotoState, updateProduct } from "../products/[id]/edit/actions";
@@ -19,11 +19,14 @@ export default function ProductEditForm({ product }: ProductProps) {
   const [preview, setPreview] = useState(`${product!.photo}/public`);
   const [uploadUrl, setUpLoadUrl] = useState("");
   const [imageId, setImageId] = useState("");
+  const [imageChange, setImageChange] = useState(false);
   const oldPhotoID = product!.photo?.split("/").pop();
+
   const onPhotoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { files },
     } = event;
+
     if (!files) {
       return;
     }
@@ -45,31 +48,40 @@ export default function ProductEditForm({ product }: ProductProps) {
       const { id, uploadURL } = result;
       setUpLoadUrl(uploadURL);
       setImageId(id);
+      setImageChange(true);
     }
   };
 
-  const intercepAction = async (prevState: PhotoState, formData: FormData) => {
+  const intercepAction = async (_: PhotoState, formData: FormData) => {
     const file = formData.get("photo");
     if (!file) {
       return;
     }
-    const cloudFlaraForm = new FormData();
-    cloudFlaraForm.append("file", file);
-    const response = await fetch(uploadUrl, {
-      method: "post",
-      body: cloudFlaraForm,
-    });
-    if (response.status !== 200) {
-      return;
-    }
-    const photoUrl = `https://imagedelivery.net/Rb4GRCDlRSth88K5U-87QA/${imageId}`;
-    formData.set("photo", photoUrl);
 
-    return await updateProduct(prevState, formData);
+    if (imageChange) {
+      const cloudFlaraForm = new FormData();
+      cloudFlaraForm.append("file", file);
+      const response = await fetch(uploadUrl, {
+        method: "post",
+        body: cloudFlaraForm,
+      });
+      if (response.status !== 200) {
+        return;
+      }
+      const photoUrl = `https://imagedelivery.net/Rb4GRCDlRSth88K5U-87QA/${imageId}`;
+      formData.set("photo", photoUrl);
+    } else {
+      formData.set("photo", product!.photo);
+    }
+
+    return await updateProduct(initialState, formData);
   };
+
   const initialState = {
     photo: oldPhotoID + "",
+    changed: imageChange,
   };
+
   const [state, action] = useFormState(intercepAction, initialState);
 
   return (
@@ -118,7 +130,7 @@ export default function ProductEditForm({ product }: ProductProps) {
           <Input
             type="hidden"
             name="id"
-            defaultValue={product!.id.toString()} // 숫자를 문자열로 변환
+            defaultValue={product!.id.toString()}
           />
         </div>
         <div className="flex gap-2 flex-col">

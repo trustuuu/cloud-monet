@@ -6,8 +6,11 @@ import Image from "next/image";
 import { formatToDallar } from "@/app/lib/utils";
 import FormButton from "@/app/components/button";
 import { delProduct, getProduct } from "../productDML";
-import { Console } from "console";
-import { revalidateTag } from "next/cache";
+import {
+  unstable_cache as nextCache,
+  revalidatePath,
+  revalidateTag,
+} from "next/cache";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const id = Number(params.id);
@@ -30,6 +33,9 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 //     },
 //   });
 // }
+const getCachedProductDetail = nextCache(getProduct, ["product-detail"], {
+  tags: ["product-detail"],
+});
 
 export default async function ProductDetail({
   params,
@@ -41,7 +47,7 @@ export default async function ProductDetail({
   if (isNaN(id)) {
     return notFound();
   }
-  const product = await getProduct(id);
+  const product = await getCachedProductDetail(id);
   if (!product) {
     return notFound();
   }
@@ -50,15 +56,17 @@ export default async function ProductDetail({
   const onDelete = async () => {
     "use server";
     await delProduct(id);
-    revalidateTag("product");
-    revalidateTag("products");
+    revalidatePath("/home");
+    revalidateTag("product-detail");
+    // revalidateTag("products");
     redirect("/home");
   };
 
   const onEdit = async () => {
     "use server";
-    revalidateTag("product");
-    revalidateTag("products");
+    revalidatePath("/home");
+    revalidateTag("product-detail");
+    // revalidateTag("products");
     redirect(`/products/${id}/edit`);
   };
 

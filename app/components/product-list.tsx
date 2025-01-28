@@ -36,7 +36,7 @@ export default function ProductList({ initialProducts }: ProductProps) {
         }
       },
       {
-        threshold: 1.0,
+        threshold: 1,
         rootMargin: "0px 0px -10px 0px",
       }
     );
