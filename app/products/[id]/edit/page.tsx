@@ -1,11 +1,32 @@
 import { notFound } from "next/navigation";
+import { getProduct } from "../../productDML";
+import { IsOwner } from "@/app/lib/session";
+import ProductEditForm from "@/app/components/product-edit-form";
+import { Prisma } from "@prisma/client";
 
-export default function Edit({ params }: { params: { id: string } }) {
-  console.log("edit", params.id);
+export type EditProductType = Prisma.PromiseReturnType<typeof getProduct>;
+
+export default async function EditPost({ params }: { params: { id: string } }) {
   const id = Number(params.id);
-  if (isNaN(id)) {
-    return notFound();
+  if (!id) {
+    notFound();
   }
 
-  return <div>Product Edit - {id} </div>;
+  const isOwner = await IsOwner(id);
+  if (isOwner) {
+    notFound();
+  }
+
+  const product = await getProduct(id);
+  if (!product) {
+    return notFound();
+  }
+  return (
+    <>
+      <div className="p-5">
+        {/* <BeforePage /> */}
+        <ProductEditForm product={product!} />
+      </div>
+    </>
+  );
 }

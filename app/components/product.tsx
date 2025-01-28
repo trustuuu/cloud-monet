@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatToDallar, formatToTimeAgo } from "../lib/utils";
 
-interface ProductProps {
+export interface ProductProps {
   title: string;
   price: number;
   created_at: Date;

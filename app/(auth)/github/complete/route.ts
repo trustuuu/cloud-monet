@@ -7,7 +7,8 @@ import {
   getAccessToken,
   getGithubUser,
   getGithubUserPrimaryEmail,
-  getUserFindUnique,
+  getUserFindUniqueByEmail,
+  getUserFindUniqueByGitHubId,
 } from "../oauth";
 
 export async function GET(request: NextRequest) {
@@ -26,17 +27,14 @@ export async function GET(request: NextRequest) {
   const { id, avatar_url, login } = await getGithubUser(access_token);
   const gitHubEmail = await getGithubUserPrimaryEmail(access_token);
 
-  const user = await getUserFindUnique({ github_id: id + "" }, { id: true });
+  const user = await getUserFindUniqueByGitHubId(id);
 
   if (user) {
     await setSession(user.id);
     return redirect("/profile");
   }
 
-  const userByEmail = await getUserFindUnique(
-    { email: gitHubEmail + "" },
-    { id: true }
-  );
+  const userByEmail = await getUserFindUniqueByEmail(gitHubEmail);
 
   const data = {
     username: login,
@@ -45,8 +43,7 @@ export async function GET(request: NextRequest) {
     avatar: avatar_url,
   };
 
-  const newUser = await createUser(data, { id: true });
-
+  const newUser = await createUser(data);
   await setSession(newUser.id);
   return redirect("/profile");
 }

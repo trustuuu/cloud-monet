@@ -5,25 +5,15 @@ import Input from "@/app/components/input";
 import { PhotoIcon } from "@heroicons/react/20/solid";
 import React, { useState } from "react";
 import uploadProduct, { getUploadUrl } from "./action";
-import { z } from "zod";
 import { useFormState } from "react-dom";
-import db from "@/app/lib/db";
-
-const fileSchema = z.object({
-  type: z.string().refine((value) => value.includes("image"), {
-    message: "Only image can be uploaded",
-  }),
-  size: z.number().max(1024 * 1024 * 10, {
-    message: "maximum image size is less then 10MB.",
-  }),
-});
+import { fileSchema } from "@/app/products/schema";
 
 export default function AddProduct() {
   const [preview, setPreview] = useState("");
   const [uploadUrl, setUpLoadUrl] = useState("");
   const [imageId, setImageId] = useState("");
 
-  const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onPhotoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
       target: { files },
     } = event;
@@ -93,7 +83,7 @@ export default function AddProduct() {
           ) : null}
         </label>
         <input
-          onChange={onImageChange}
+          onChange={onPhotoChange}
           type="file"
           id="photo"
           name="photo"

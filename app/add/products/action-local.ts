@@ -3,11 +3,8 @@
 import { z } from "zod";
 import fs from "fs/promises";
 import db from "@/app/lib/db";
-import getSession, { setSession } from "@/app/lib/session";
+import getSession from "@/app/lib/session";
 import { redirect } from "next/navigation";
-import { get } from "http";
-import { env } from "process";
-import { POST } from "@/app/api/users/route";
 
 const productSchema = z.object({
   photo: z.string({
@@ -23,18 +20,18 @@ const productSchema = z.object({
     required_error: "Description is required",
   }),
 });
-
-export default async function uploadProduct(
-  prevState: any,
-  formData: FormData
-) {
+export default async function uploadProduct(_: any, formData: FormData) {
   const data = {
     photo: formData.get("photo"),
     title: formData.get("title"),
     price: formData.get("price"),
     description: formData.get("description"),
   };
-
+  if (data.photo instanceof File) {
+    const photoData = await data.photo.arrayBuffer();
+    await fs.appendFile(`./public/${data.photo.name}`, Buffer.from(photoData));
+    data.photo = `/${data.photo.name}`;
+  }
   const results = await productSchema.safeParseAsync(data);
   if (!results.success) {
     return results.error.flatten();
@@ -60,18 +57,4 @@ export default async function uploadProduct(
       redirect(`/products/${product.id}`);
     }
   }
-}
-
-export async function getUploadUrl() {
-  const response = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v2/direct_upload`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.CLOUDFLARE_API_KEY}`,
-      },
-    }
-  );
-  const data = await response.json();
-  return data;
 }

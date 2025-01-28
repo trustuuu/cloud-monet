@@ -47,18 +47,34 @@ export const getGithubUserPrimaryEmail = async (access_token: string) => {
   return primaryEmail;
 };
 
-export const getUserFindUnique = async (whereArg: any, selectArg: any) => {
+export const getUserFindUniqueById = async (id: number) => {
   const user = await db.user.findUnique({
-    where: whereArg,
-    select: selectArg,
+    where: { id: id },
+    select: { id: true },
   });
   return user;
 };
 
-export const createUser = async (userData: any, selectArg: any) => {
+export const getUserFindUniqueByGitHubId = async (githubId: number) => {
+  const user = await db.user.findUnique({
+    where: { github_id: githubId.toString() },
+    select: { id: true },
+  });
+  return user;
+};
+
+export const getUserFindUniqueByEmail = async (email: string) => {
+  const user = await db.user.findUnique({
+    where: { email: email },
+    select: { id: true },
+  });
+  return user;
+};
+
+export const createUser = async (userData: any) => {
   const newUser = await db.user.create({
     data: userData,
-    select: selectArg,
+    select: { id: true },
   });
   return newUser;
 };

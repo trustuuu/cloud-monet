@@ -2,7 +2,7 @@ import ButtonClose from "@/app/components/buttonClose";
 import db from "@/app/lib/db";
 import { formatToDallar } from "@/app/lib/utils";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 async function getProduct(id: number) {
   const product = await db.product.findUnique({
     where: {
@@ -20,7 +20,13 @@ async function getProduct(id: number) {
   return product;
 }
 export default async function Modal({ params }: { params: { id: string } }) {
-  const id = Number(params.id);
+  if (isNaN(id)) {
+    // if (params.id === "add") {
+    //   console.log("params.id", params.id);
+    //   return redirect("/products/add");
+    // }
+    return notFound();
+  }
   const product = await getProduct(id);
   if (!product) {
     return notFound();

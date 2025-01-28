@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Products } from "../(tabs)/products/page";
+import { Products } from "../(tabs)/home/page";
 import Product from "./product";
-import FormButton from "./button";
-import { getMoreProduct } from "../(tabs)/products/actions";
+import { getMoreProduct } from "../(tabs)/home/actions";
 
 interface ProductProps {
   initialProducts: Products;

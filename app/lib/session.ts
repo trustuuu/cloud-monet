@@ -11,8 +11,16 @@ export default async function getSession() {
   });
 }
 
-export async function setSession(id) {
+export async function setSession(id: number) {
   const session = await getSession();
   session.id = id;
   await session.save();
+}
+
+export async function IsOwner(userId: number) {
+  const session = await getSession();
+  if (session.id) {
+    return session.id === userId;
+  }
+  return false;
 }

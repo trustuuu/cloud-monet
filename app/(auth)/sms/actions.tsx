@@ -57,11 +57,10 @@ async function createToken() {
 
 export async function smsLogin(prevState: ActionState, formData: FormData) {
   const phone = formData.get("phone");
-  const token = formData.get("token");
+
   if (!prevState.token) {
     const result = phoneSchema.safeParse(phone);
     if (!result.success) {
-      console.log("token false");
       return {
         token: false,
         error: result.error.flatten(),
@@ -106,7 +105,6 @@ export async function smsLogin(prevState: ActionState, formData: FormData) {
   } else {
     const result = await tokenSchema.safeParseAsync(formData.get("token"));
     if (!result.success) {
-      console.log("false", result.error.flatten(), formData);
       return {
         token: true,
         error: result.error.flatten(),

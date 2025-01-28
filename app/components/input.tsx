@@ -20,7 +20,9 @@ export default function FormInput({
         {...rest}
       />
       {errors.map((error, index) => (
-        <span className="text-red-500 font-medium">{error}</span>
+        <span className="text-red-500 font-medium" key={index}>
+          {error}
+        </span>
       ))}
     </div>
   );

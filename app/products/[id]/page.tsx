@@ -1,37 +1,34 @@
-import db from "@/app/lib/db";
-import getSession from "@/app/lib/session";
-import { UserIcon } from "@heroicons/react/20/solid";
+import { IsOwner } from "@/app/lib/session";
+import { ChevronDoubleLeftIcon, UserIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
 import { formatToDallar } from "@/app/lib/utils";
 import FormButton from "@/app/components/button";
+import { delProduct, getProduct } from "../productDML";
+import { Console } from "console";
 
-async function getProduct(id: number) {
-  //await new Promise((resolve) => setTimeout(resolve, 5000));
-  const product = await db.product.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      user: {
-        select: {
-          username: true,
-          avatar: true,
-        },
-      },
-    },
-  });
-  return product;
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const id = Number(params.id);
+  //let title = "";
+  // if (isNaN(id)) {
+  //   title = "Product";
+  // }
+  const product = await getProduct(id);
+
+  return {
+    title: product?.title,
+  };
 }
 
-async function IsOwner(userId: number) {
-  const session = await getSession();
-  if (session.id) {
-    return session.id === userId;
-  }
-  return false;
-}
+// async function getProductREST(id: number) {
+//   await fetch("https://api.test", {
+//     next: {
+//       revalidate: 60,
+//       tags: ["hello"],
+//     },
+//   });
+// }
 
 export default async function ProductDetail({
   params,
@@ -50,17 +47,12 @@ export default async function ProductDetail({
 
   const onDelete = async () => {
     "use server";
-    await db.product.delete({
-      where: {
-        id,
-      },
-    });
+    await delProduct(id);
     redirect("/products");
   };
 
   const onEdit = async () => {
     "use server";
-    console.log("onEdit", id);
     redirect(`/products/${id}/edit`);
   };
 
