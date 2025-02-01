@@ -20,7 +20,27 @@ async function getProducts() {
       created_at: true,
       photo: true,
       id: true,
+      _count: {
+        select: {
+          likes: true,
+        },
+      },
+      // posts: {
+      //   select: {
+      //     id: true,
+      //     title: true,
+      //     description: true,
+      //     views: true,
+      //     created_at: true,
+      //     _count: {
+      //       select: {
+      //         comments: true,
+      //       },
+      //     },
+      //   },
+      // },
     },
+
     orderBy: {
       created_at: "desc",
     },

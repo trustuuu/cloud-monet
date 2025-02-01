@@ -30,7 +30,6 @@ export async function updateProduct(prevState: PhotoState, formData: FormData) {
   } else {
     if (prevState.photo && prevState.changed) {
       const responseDel = await delPhoto(prevState!.photo);
-      console.log("responseDel", responseDel);
     }
 
     const session = await getSession();

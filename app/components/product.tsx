@@ -8,6 +8,8 @@ export interface ProductProps {
   created_at: Date;
   photo: string;
   id: number;
+  //posts: Post[];
+  _count: { likes: number };
 }
 export default function Product({
   title,
@@ -15,7 +17,9 @@ export default function Product({
   created_at,
   photo,
   id,
-}: ProductProps) {
+  _count,
+}: //posts,
+ProductProps) {
   return (
     <Link href={`/products/${id}`} className="flex gap-5">
       <div className="relative size-28 rounded-md overflow-hidden">
@@ -30,6 +34,7 @@ export default function Product({
       </div>
       <div className="flex flex-col gap-1 *:text-white">
         <span className="text-lg">{title}</span>
+        <span className="text-sm text-neutral-500">Likes ({_count.likes})</span>
         <span className="text-sm text-neutral-500">
           {formatToTimeAgo(created_at.toString())}
         </span>

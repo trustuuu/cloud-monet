@@ -1,6 +1,5 @@
-import { IsOwner } from "@/app/lib/session";
-import { ChevronDoubleLeftIcon, UserIcon } from "@heroicons/react/20/solid";
-import Link from "next/link";
+import getSession, { IsOwner } from "@/app/lib/session";
+import { UserIcon } from "@heroicons/react/20/solid";
 import { notFound, redirect } from "next/navigation";
 import Image from "next/image";
 import { formatToDallar } from "@/app/lib/utils";
@@ -11,6 +10,9 @@ import {
   revalidatePath,
   revalidateTag,
 } from "next/cache";
+import PorductPost from "@/app/components/post";
+import LikeButton from "@/app/components/like-button";
+import db from "@/app/lib/db";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const id = Number(params.id);
@@ -33,9 +35,31 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 //     },
 //   });
 // }
+
 const getCachedProductDetail = nextCache(getProduct, ["product-detail"], {
+  revalidate: 60,
   tags: ["product-detail"],
 });
+
+async function getLikeStatus(productId: number, sessionId: number) {
+  const isLiked = await db.like.findUnique({
+    where: {
+      id: {
+        productId,
+        userId: sessionId,
+      },
+    },
+  });
+  const likeCount = await db.like.count({
+    where: {
+      productId,
+    },
+  });
+  return {
+    likeCount,
+    isLiked: Boolean(isLiked),
+  };
+}
 
 export default async function ProductDetail({
   params,
@@ -52,6 +76,15 @@ export default async function ProductDetail({
     return notFound();
   }
   const isOwner = await IsOwner(product.userId);
+
+  function getCachedLikeStatus(porductId: number, sessionId: number) {
+    const cachedOperation = nextCache(getLikeStatus, ["product-like-status"], {
+      tags: [`like-status-${porductId}`],
+    });
+    return cachedOperation(porductId, sessionId);
+  }
+  const session = await getSession();
+  const { likeCount, isLiked } = await getCachedLikeStatus(id, session.id!);
 
   const onDelete = async () => {
     "use server";
@@ -70,8 +103,30 @@ export default async function ProductDetail({
     redirect(`/products/${id}/edit`);
   };
 
+  const onCreateChatRoom = async () => {
+    "use server";
+    const room = await db.chatRoom.create({
+      data: {
+        users: {
+          connect: [
+            {
+              id: product.userId,
+            },
+            {
+              id: session.id,
+            },
+          ],
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+    redirect(`/chats/${room.id}`);
+  };
+
   return (
-    <div className="p-5 flex flex-col gap-5">
+    <div className="p-5 flex flex-col gap-1">
       <div className="relative border-neutral-700 bg-neutral-600 aspect-square border-4 rounded-md flex justify-center">
         <Image
           fill
@@ -97,11 +152,17 @@ export default async function ProductDetail({
           <h3>{product.user.username}</h3>
         </div>
       </div>
-      <div className="p-5">
-        <h1 className="text-2xl font-semibold">{product.title}</h1>
-        <p>{product.description}</p>
+      <div className="flex flex-auto items-start justify-between">
+        <div className="p-3">
+          <h1 className="text-2xl font-semibold">{product.title}</h1>
+          <p className="whitespace-pre-line">{product.description}</p>
+        </div>
+        <div className="p-5 size-40">
+          <LikeButton isLiked={isLiked} likeCount={likeCount} productId={id} />
+        </div>
       </div>
-      <div className="fixed w-full bottom-0 left-0 p-5 pb-10 bg-neutral-800 flex justify-between items-center">
+
+      <div className=" p-2 bg-neutral-800 flex justify-between items-center">
         <div>
           <span className="font-semibold text-lg">
             CAD ${formatToDallar(product.price)}
@@ -125,13 +186,17 @@ export default async function ProductDetail({
             </div>
           ) : null}
 
-          <Link
-            className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold text-center"
-            href={``}
-          >
-            Start Chat
-          </Link>
+          <form action={onCreateChatRoom}>
+            <button className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold text-center">
+              Start Chat
+            </button>
+          </form>
         </div>
+      </div>
+      <div className="p-5 flex flex-col pb-20">
+        {product.posts.map((post) => (
+          <PorductPost key={post.id} {...post} />
+        ))}
       </div>
     </div>
   );

@@ -55,7 +55,9 @@ export default async function Modal({ params }: { params: { id: string } }) {
               <p className="text-sm font-medium text-gray-700">
                 CAD ${formatToDallar(product.price)}
               </p>
-              <p className="text-neutral-500">{product.description}</p>
+              <p className="text-neutral-500 whitespace-pre-line">
+                {product.description}
+              </p>
             </div>
             <div className="flex items-center gap-4 mt-2">
               <div className="w-10 h-10 relative rounded-full overflow-hidden bg-gray-200">

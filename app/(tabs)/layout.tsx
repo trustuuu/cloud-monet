@@ -4,7 +4,7 @@ import TabBar from "../components/tab-bar";
 export default function TabLayout({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      {children}
+      <div className="pb-20">{children}</div>
       <TabBar />
     </div>
   );

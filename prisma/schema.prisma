@@ -27,10 +27,16 @@ model User {
   updated_at DateTime @updatedAt
   status     Int      @default(1)
 
-  SMSToken        SMSToken[]
-  Product         Product[]
-  ArtStudio       ArtStudio[]
-  ArtStudioMember ArtStudioMember[]
+  sms_tokens         SMSToken[]
+  products           Product[]
+  art_studios        ArtStudio[]
+  art_studio_members ArtStudioMember[]
+  posts              Post[]
+  comments           Comment[]
+  likes              Like[]
+
+  messages   Message[]
+  chat_rooms ChatRoom[]
 }
 
 model SMSToken {
@@ -53,18 +59,20 @@ model Product {
 
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt
-  user        User       @relation(fields: [userId], references: [id])
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
   catetory    Catetory?  @relation(fields: [catetoryId], references: [id])
   catetoryId  Int?
-  art_stuio   ArtStudio? @relation(fields: [artStudioId], references: [id])
+  art_studio  ArtStudio? @relation(fields: [artStudioId], references: [id], onDelete: Cascade)
   artStudioId Int?
+  posts       Post[]
+  likes       Like[]
 }
 
 model Catetory {
-  id      Int       @id @default(autoincrement())
-  name    String
-  Product Product[]
+  id       Int       @id @default(autoincrement())
+  name     String
+  products Product[]
 }
 
 model ArtStudio {
@@ -74,12 +82,12 @@ model ArtStudio {
   description String
   status      Int    @default(1)
 
-  created_at      DateTime          @default(now())
-  updated_at      DateTime          @updatedAt
-  owner           User              @relation(fields: [userId], references: [id])
-  userId          Int
-  ArtStudioMember ArtStudioMember[]
-  Product         Product[]
+  created_at DateTime          @default(now())
+  updated_at DateTime          @updatedAt
+  owner      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  members    ArtStudioMember[]
+  products   Product[]
 }
 
 model ArtStudioMember {
@@ -90,15 +98,72 @@ model ArtStudioMember {
   updated_at      DateTime      @updatedAt
   role            ArtStudioRole @relation(fields: [ArtStudioRoleId], references: [id])
   ArtStudioRoleId Int
-  art_studio      ArtStudio     @relation(fields: [artStudioId], references: [id])
+  art_studio      ArtStudio     @relation(fields: [artStudioId], references: [id], onDelete: Cascade)
   artStudioId     Int
-  member          User          @relation(fields: [userId], references: [id])
+  member          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          Int
 }
 
 model ArtStudioRole {
-  id              Int               @id @default(autoincrement())
-  name            String
-  description     String
-  ArtStudioMember ArtStudioMember[]
+  id          Int               @id @default(autoincrement())
+  name        String
+  description String
+  members     ArtStudioMember[]
+}
+
+model Post {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  views       Int       @default(0)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  owner       User      @relation(fields: [userId], references: [id])
+  product     Product   @relation(fields: [productId], references: [id])
+  userId      Int
+  productId   Int
+  comments    Comment[]
+}
+
+model Comment {
+  id         Int      @id @default(autoincrement())
+  payload    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  owner      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId     Int
+  postId     Int
+}
+
+model Like {
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  owner      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId  Int
+
+  @@id(name: "id", [userId, productId])
+}
+
+model ChatRoom {
+  id         String   @id @default(cuid())
+  users      User[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  Message Message[]
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  payload    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  room       ChatRoom @relation(fields: [chatRoomId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+
+  chatRoomId String
+  userId     Int
 }

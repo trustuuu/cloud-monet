@@ -52,7 +52,7 @@ export default function ProductEditForm({ product }: ProductProps) {
     }
   };
 
-  const intercepAction = async (_: PhotoState, formData: FormData) => {
+  const intercepAction = async (prevState: PhotoState, formData: FormData) => {
     const file = formData.get("photo");
     if (!file) {
       return;
@@ -135,13 +135,26 @@ export default function ProductEditForm({ product }: ProductProps) {
         </div>
         <div className="flex gap-2 flex-col">
           <h1>Description</h1>
-          <Input
+          {/* <Input
             type="text"
             name="description"
             errors={state?.fieldErrors?.description}
             required
             defaultValue={product!.description}
+          /> */}
+          <textarea
+            id="text"
+            name="description"
+            rows={4}
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Description"
+            defaultValue={product!.description}
           />
+          {state?.fieldErrors?.description!.map((error, index) => (
+            <span className="text-red-500 font-medium" key={index}>
+              {error}
+            </span>
+          ))}
           <h1>Price</h1>
           <Input
             name="price"
