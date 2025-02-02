@@ -11,7 +11,7 @@ export default function CommentButton() {
     rounded-full p-2 transition-colors bg-orange-500 border-orange-500"
     >
       {pending ? (
-        <span className="loading loading-bars loading-sm"></span>
+        <span className="loading loading-bars loading-sm">Saving...</span>
       ) : (
         <span>comment</span>
       )}

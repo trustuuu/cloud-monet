@@ -135,22 +135,36 @@ export async function getMaxCommentId() {
   return commentMax._max.id;
 }
 
+export async function deleteComment(id: number) {
+  console.log("delete id", id);
+  await db.comment.delete({
+    where: { id },
+  });
+}
 export async function addComment(_: any, formData: FormData) {
+  //await new Promise((resolve) => setTimeout(resolve, 10000));
   const data = {
     payload: formData.get("new_payload")?.toString()!,
     userId: Number(formData.get("userId")),
     postId: Number(formData.get("postId")),
   };
+
   const comment = await db.comment.create({
     data: data,
     select: {
       id: true,
-      payload: true,
       userId: true,
+      payload: true,
+      created_at: true,
       postId: true,
+      owner: {
+        select: {
+          avatar: true,
+          username: true,
+        },
+      },
     },
   });
-
   return comment;
 }
 

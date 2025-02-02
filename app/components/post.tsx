@@ -46,7 +46,7 @@ export default async function PorductPost({
 }: PostProps) {
   const session = await getSession();
   const user = await getUser(session.id!);
-  const commentMax = await getMaxCommentId();
+
   return (
     <div className="p-5 text-white">
       <Link
@@ -89,7 +89,6 @@ export default async function PorductPost({
       <CommentList
         sessionId={session.id!}
         postId={id}
-        commentMax={commentMax!}
         user={user!}
         comments={comments}
       />
