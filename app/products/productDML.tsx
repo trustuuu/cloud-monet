@@ -236,3 +236,41 @@ export const getMessage = async (chatRoomId: string) => {
   });
   return messages;
 };
+
+export interface StreamProps {
+  title: string;
+  stream_id: string;
+  stream_key: string;
+  userId: number;
+}
+export async function createStream(data: StreamProps) {
+  const stream = await db.liveStream.create({
+    data,
+    select: {
+      id: true,
+    },
+  });
+
+  return stream;
+}
+
+export async function getStream(id: number) {
+  const stream = await db.liveStream.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      title: true,
+      stream_key: true,
+      stream_id: true,
+      userId: true,
+      user: {
+        select: {
+          avatar: true,
+          username: true,
+        },
+      },
+    },
+  });
+  return stream;
+}
