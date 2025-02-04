@@ -11,8 +11,8 @@ export interface PhotoState {
 }
 
 export async function updateProduct(prevState: PhotoState, formData: FormData) {
+  const id = Number(formData.get("id"));
   const data = {
-    id: formData.get("id"),
     photo: formData.get("photo"),
     title: formData.get("title"),
     price: formData.get("price"),
@@ -26,7 +26,11 @@ export async function updateProduct(prevState: PhotoState, formData: FormData) {
       results.error.flatten(),
       data
     );
-    return results.error.flatten();
+    return {
+      photo: formData.get("photo"),
+      changed: prevState.changed,
+      error: results.error.flatten(),
+    };
   } else {
     if (prevState.photo && prevState.changed) {
       const responseDel = await delPhoto(prevState!.photo);
@@ -36,7 +40,7 @@ export async function updateProduct(prevState: PhotoState, formData: FormData) {
     if (session.id) {
       const product = await db.product.update({
         where: {
-          id: results.data.id,
+          id: id,
         },
         data: {
           title: results.data.title,
@@ -48,9 +52,12 @@ export async function updateProduct(prevState: PhotoState, formData: FormData) {
           id: true,
         },
       });
+
       revalidateTag("product-detail");
       revalidateTag("products");
-      redirect(`/home`); ///${product.id}`);
+      redirect(`/home`);
+      //return product;
+      //return { photo: "", changed: false };
     }
   }
 }

@@ -30,6 +30,8 @@ ProductProps) {
           alt={title}
           sizes="(max-width: 96px), (max-width: 96px)"
           className="object-cover size-24"
+          placeholder="blur"
+          blurDataURL="data:immage/jpeg;base64, LGF5?xYk^6#M@-5c,1J5@[or[Q6."
         />
       </div>
       <div className="flex flex-col gap-1 *:text-white">

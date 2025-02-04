@@ -52,7 +52,7 @@ export default function ProductEditForm({ product }: ProductProps) {
     }
   };
 
-  const intercepAction = async (prevState: PhotoState, formData: FormData) => {
+  const intercepAction = async (prevState: any, formData: FormData) => {
     const file = formData.get("photo");
     if (!file) {
       return;
@@ -74,15 +74,15 @@ export default function ProductEditForm({ product }: ProductProps) {
       formData.set("photo", product!.photo);
     }
 
+    const initialState = {
+      photo: oldPhotoID + "",
+      changed: imageChange,
+      error: undefined,
+    };
     return await updateProduct(initialState, formData);
   };
 
-  const initialState = {
-    photo: oldPhotoID + "",
-    changed: imageChange,
-  };
-
-  const [state, action] = useFormState(intercepAction, initialState);
+  const [state, action] = useFormState(intercepAction, null);
 
   return (
     <div>
@@ -98,7 +98,7 @@ export default function ProductEditForm({ product }: ProductProps) {
             <>
               <PhotoIcon className="w-20" />
               <div className="text-neutral-400 text-sm">
-                Click to upload a picture {state?.fieldErrors.photo}
+                Click to upload a picture {state?.error?.formErrors}
               </div>
             </>
           ) : null}
@@ -123,7 +123,7 @@ export default function ProductEditForm({ product }: ProductProps) {
           <Input
             type="text"
             name="title"
-            errors={state?.fieldErrors?.title}
+            errors={state?.error?.formErrors}
             required
             defaultValue={product!.title}
           />
@@ -150,18 +150,22 @@ export default function ProductEditForm({ product }: ProductProps) {
             placeholder="Description"
             defaultValue={product!.description}
           />
-          {state?.fieldErrors?.description!.map((error, index) => (
+          <span className="text-red-500 font-medium">
+            {state?.error?.formErrors}
+          </span>
+
+          {/* {state?.fieldErrors?.description!.map((error, index) => (
             <span className="text-red-500 font-medium" key={index}>
               {error}
             </span>
-          ))}
+          ))} */}
           <h1>Price</h1>
           <Input
             name="price"
             type="number"
             required
             placeholder="Price"
-            errors={state?.fieldErrors?.price}
+            errors={state?.error?.formErrors}
             defaultValue={product!.price}
           />
         </div>
