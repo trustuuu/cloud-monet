@@ -13,7 +13,7 @@ export default async function EditPost({ params }: { params: { id: string } }) {
   }
 
   const isOwner = await IsOwner(id);
-  if (isOwner) {
+  if (!isOwner) {
     notFound();
   }
 
