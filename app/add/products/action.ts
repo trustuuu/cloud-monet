@@ -1,10 +1,9 @@
 "use server";
 
 import db from "@/app/lib/db";
-import getSession, { setSession } from "@/app/lib/session";
+import getSession from "@/app/lib/session";
 import { productSchema } from "@/app/products/schema";
 import { redirect } from "next/navigation";
-import { ConversationContextImpl } from "twilio/lib/rest/conversations/v1/conversation";
 
 export default async function uploadProduct(
   prevState: any,

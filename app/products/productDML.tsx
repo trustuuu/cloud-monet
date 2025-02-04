@@ -107,7 +107,7 @@ export async function likePost(productId: number) {
       },
     });
     revalidateTag(`like-status-${productId}`);
-  } catch (e) {}
+  } catch {}
 }
 
 export async function dislikePost(productId: number) {
@@ -123,7 +123,7 @@ export async function dislikePost(productId: number) {
       },
     });
     revalidateTag(`like-status-${productId}`);
-  } catch (e) {}
+  } catch {}
 }
 
 export async function getMaxCommentId() {
@@ -144,7 +144,7 @@ export async function deleteComment(id: number) {
 export async function addComment(_: any, formData: FormData) {
   //await new Promise((resolve) => setTimeout(resolve, 10000));
   const data = {
-    payload: formData.get("new_payload")?.toString()!,
+    payload: (formData.get("new_payload") ?? "").toString()!,
     userId: Number(formData.get("userId")),
     postId: Number(formData.get("postId")),
   };

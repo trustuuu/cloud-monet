@@ -1,5 +1,4 @@
 import ChatMessageList from "@/app/components/message-list";
-import db from "@/app/lib/db";
 import getSession from "@/app/lib/session";
 import { getMessage, getRoom, getUser } from "@/app/products/productDML";
 import { Prisma } from "@prisma/client";

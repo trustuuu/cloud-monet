@@ -1,14 +1,12 @@
-import { CommentProps, UserProps } from "./post";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
+import { CommentProps } from "./post";
 import {
-  HandThumbUpIcon as OutlineHandThumbUpIcon,
-  HandThumbDownIcon as OutlineHandThumbDownIcon,
+  // HandThumbUpIcon as OutlineHandThumbUpIcon,
+  // HandThumbDownIcon as OutlineHandThumbDownIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import { formatToTimeAgo } from "../lib/utils";
-import { deleteComment } from "../products/productDML";
-import { redirect } from "next/dist/server/api-utils";
+
 import { OnDeleteType } from "./comment-list";
 
 export default function CommentComp({

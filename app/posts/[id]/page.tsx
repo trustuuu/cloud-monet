@@ -1,11 +1,6 @@
 import db from "@/app/lib/db";
 import { notFound } from "next/navigation";
-import Image from "next/image";
-import { formatToTimeAgo } from "@/app/lib/utils";
-import { EyeIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
 import { unstable_cache as nextCache } from "next/cache";
-import CommentComp from "@/app/components/comment";
-import Link from "next/link";
 import PorductPost from "@/app/components/post";
 
 async function getPost(id: number) {
@@ -44,7 +39,7 @@ async function getPost(id: number) {
       },
     });
     return post;
-  } catch (e) {
+  } catch {
     return null;
   }
 }
@@ -64,7 +59,7 @@ export default async function PostDetail({
   if (isNaN(id)) {
     return notFound();
   }
-  const post = await getPost(id);
+  const post = await getCachedPost(id);
   if (!post) {
     return notFound();
   }

@@ -1,8 +1,6 @@
 "use client";
 import { formatToTimeAgo } from "@/app/lib/utils";
 import Image from "next/image";
-import { useFormState } from "react-dom";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import { delRoom } from "../products/productDML";
 
@@ -25,13 +23,12 @@ export default function RoomComp({
   userId: number;
   removeRoom: any;
 }) {
-  console.log("removeRoom ===>", typeof removeRoom);
-  const removeChatRoom = async (prevState: any, formData: FormData) => {
+  const removeChatRoom = async () => {
     await delRoom(room.id);
     removeRoom(room.id);
   };
 
-  const [state, actionRemove] = useFormState(removeChatRoom, null);
+  //const [state, actionRemove] = useFormState(removeChatRoom, null);
   const user = room.users.find((r) => r.id !== userId);
 
   return (
@@ -69,7 +66,7 @@ export default function RoomComp({
         >
           Enter
         </Link>
-        <form action={actionRemove}>
+        <form action={removeChatRoom}>
           <button
             name="enter-btn"
             className="flex items-center gap-2 text-white text-sm border

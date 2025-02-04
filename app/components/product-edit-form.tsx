@@ -5,11 +5,11 @@ import Input from "./input";
 import { PhotoIcon } from "@heroicons/react/20/solid";
 
 import { useFormState } from "react-dom";
-import { useEffect, useState } from "react";
 import { fileSchema } from "../products/schema";
 import { EditProductType } from "../products/[id]/edit/page";
-import { PhotoState, updateProduct } from "../products/[id]/edit/actions";
+import { updateProduct } from "../products/[id]/edit/actions";
 import { getUploadUrl } from "../add/products/action";
+import { useState } from "react";
 
 interface ProductProps {
   product: EditProductType;

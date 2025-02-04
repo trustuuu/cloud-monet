@@ -1,14 +1,10 @@
 import Link from "next/link";
 import { formatToTimeAgo } from "../lib/utils";
-import {
-  ChatBubbleBottomCenterIcon,
-  HandThumbUpIcon,
-} from "@heroicons/react/24/outline";
-import CommentComp from "./comment";
+import { ChatBubbleBottomCenterIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import CommentList from "./comment-list";
 import getSession from "../lib/session";
-import { getMaxCommentId, getUser } from "../products/productDML";
+import { getUser } from "../products/productDML";
 
 export interface UserProps {
   avatar: string | null;

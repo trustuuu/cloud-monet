@@ -1,10 +1,8 @@
 import db from "@/app/lib/db";
-import { formatToTimeAgo } from "@/app/lib/utils";
-import Link from "next/link";
-import {
-  ChatBubbleBottomCenterIcon,
-  HandThumbUpIcon,
-} from "@heroicons/react/24/outline";
+// import {
+//   ChatBubbleBottomCenterIcon,
+//   HandThumbUpIcon,
+// } from "@heroicons/react/24/outline";
 import PorductPost from "@/app/components/post";
 
 async function getPosts() {

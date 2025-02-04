@@ -2,7 +2,7 @@ import ButtonClose from "@/app/components/buttonClose";
 import db from "@/app/lib/db";
 import { formatToDallar } from "@/app/lib/utils";
 import Image from "next/image";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 async function getProduct(id: number) {
   const product = await db.product.findUnique({
     where: {

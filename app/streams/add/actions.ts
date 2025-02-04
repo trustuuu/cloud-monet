@@ -1,6 +1,5 @@
 "use server";
 
-import db from "@/app/lib/db";
 import getSession from "@/app/lib/session";
 import { createStream } from "@/app/products/productDML";
 import { redirect } from "next/navigation";

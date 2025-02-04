@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import CommentComp from "./comment";
 import { CommentProps, UserProps } from "./post";
 import CommentButton from "./comment-button";
@@ -52,7 +51,7 @@ export default function CommentList({
   );
 
   const interceptAction = async (_: any, formData: FormData) => {
-    const payload = formData.get("new_payload")?.toString()!;
+    const payload = (formData.get("new_payload") ?? "").toString()!;
     const newComment = {
       payload,
       id: new Date().getMilliseconds(),
@@ -68,6 +67,9 @@ export default function CommentList({
   };
 
   const [state, action] = useFormState(interceptAction, null);
+  if (!state) {
+    console.log(state);
+  }
 
   const onDeleteComment: OnDeleteType = async (id) => {
     startTransition(async () => {

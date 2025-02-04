@@ -33,12 +33,12 @@ export async function updateProduct(prevState: PhotoState, formData: FormData) {
     };
   } else {
     if (prevState.photo && prevState.changed) {
-      const responseDel = await delPhoto(prevState!.photo);
+      await delPhoto(prevState!.photo);
     }
 
     const session = await getSession();
     if (session.id) {
-      const product = await db.product.update({
+      await db.product.update({
         where: {
           id: id,
         },
