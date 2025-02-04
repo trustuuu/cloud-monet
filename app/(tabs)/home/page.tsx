@@ -1,92 +1,27 @@
-import ProductList from "@/app/components/product-list";
-import db from "@/app/lib/db";
-import { PlusIcon } from "@heroicons/react/20/solid";
-import { Prisma } from "@prisma/client";
-//import { unstable_cache as nextCache } from "next/cache";
 import Link from "next/link";
 
-// const getCachedProducts = nextCache(getProducts, ["products"], {
-//   tags: ["products"],
-// });
-//const getCachedProducts = nextCache(getProducts, ["home-products"], {revalidate: 60});
-
-async function getProducts() {
-  //await new Promise((resolve) => setTimeout(resolve, 100000));
-
-  const products = await db.product.findMany({
-    select: {
-      title: true,
-      price: true,
-      created_at: true,
-      photo: true,
-      id: true,
-      _count: {
-        select: {
-          likes: true,
-        },
-      },
-      // posts: {
-      //   select: {
-      //     id: true,
-      //     title: true,
-      //     description: true,
-      //     views: true,
-      //     created_at: true,
-      //     _count: {
-      //       select: {
-      //         comments: true,
-      //       },
-      //     },
-      //   },
-      // },
-    },
-
-    orderBy: {
-      created_at: "desc",
-    },
-    take: 1,
-  });
-  return products;
-}
-
-export type Products = Prisma.PromiseReturnType<typeof getProducts>;
-
-export const metadata = {
-  title: "Home",
-};
-
-//export const dynamic = "force-dynamic";
-//export const revalidate = 60;
-
-export default async function Products() {
-  //const initialProducts = await getProducts();
-  const initialProducts = await getProducts();
-  console.log("initialProducts", initialProducts);
-  // const revalidate = async () => {
-  //   "use server";
-  //   revalidatePath("/products");
-  // };
+export default function TabHome() {
   return (
-    <div className="p-5 flex flex-col gap-5">
-      <ProductList initialProducts={initialProducts} />
-      <Link
-        href="/add/products"
-        className="bg-orange-500 flex items-center justify-center rounded-full size-16 fixed bottom-24 right-8 text-white transition-colors hover:bg-orange-400"
-      >
-        <PlusIcon className="size-10 " />
-      </Link>
+    <div
+      className="flex flex-col items-center
+    justify-between min-h-screen p-6"
+    >
+      <div className="my-auto flex flex-col items-center gap-2 *:font-medium">
+        <span className="text-9xl">Monet</span>
+        <h1 className="text-4xl">Cloud Monet</h1>
+        <h2 className="text-2xl">Welcome to Cloud Monet!</h2>
+      </div>
+      {/* <div className="flex flex-col items-center gap-3">
+        <Link href="/create-account" className="primary-btn py-2.5 text-lg">
+          Gettiong Started!
+        </Link>
+        <div className="flex gap-2">
+          <span>Do you have a account already?</span>
+          <Link href="/login" className="hover:underline">
+            Log In
+          </Link>
+        </div>
+      </div> */}
     </div>
   );
 }
-
-//only static page will be rendered. it doesn't create static page for new record
-//export const dynamicParams = false;
-
-// export async function generateStaticParams() {
-//   const products = await db.product.findMany({
-//     select: {
-//       id: true,
-//     },
-//   });
-//   return products.map((product) => ({ id: product.id + "" }));
-//}

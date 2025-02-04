@@ -183,7 +183,7 @@ export const getRooms = async (userId: number) => {
       },
     },
   });
-  console.log("rooms", rooms);
+  console.log("rooms", rooms, "userId", userId);
   return rooms;
 };
 

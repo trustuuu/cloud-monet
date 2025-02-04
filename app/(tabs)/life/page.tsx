@@ -1,58 +1,92 @@
+import ProductList from "@/app/components/product-list";
 import db from "@/app/lib/db";
-// import {
-//   ChatBubbleBottomCenterIcon,
-//   HandThumbUpIcon,
-// } from "@heroicons/react/24/outline";
-import PorductPost from "@/app/components/post";
+import { PlusIcon } from "@heroicons/react/20/solid";
+import { Prisma } from "@prisma/client";
+//import { unstable_cache as nextCache } from "next/cache";
+import Link from "next/link";
 
-async function getPosts() {
-  //await new Promise((resolve) => setTimeout(resolve, 10000));
-  const posts = await db.post.findMany({
+// const getCachedProducts = nextCache(getProducts, ["products"], {
+//   tags: ["products"],
+// });
+//const getCachedProducts = nextCache(getProducts, ["home-products"], {revalidate: 60});
+
+async function getProducts() {
+  //await new Promise((resolve) => setTimeout(resolve, 100000));
+
+  const products = await db.product.findMany({
     select: {
-      id: true,
       title: true,
-      description: true,
-      views: true,
+      price: true,
       created_at: true,
-      owner: {
-        select: {
-          username: true,
-          avatar: true,
-        },
-      },
-      comments: {
-        select: {
-          payload: true,
-          owner: true,
-          created_at: true,
-          id: true,
-          userId: true,
-          postId: true,
-        },
-      },
-      userId: true,
-
+      photo: true,
+      id: true,
       _count: {
         select: {
-          comments: true,
+          likes: true,
         },
       },
+      // posts: {
+      //   select: {
+      //     id: true,
+      //     title: true,
+      //     description: true,
+      //     views: true,
+      //     created_at: true,
+      //     _count: {
+      //       select: {
+      //         comments: true,
+      //       },
+      //     },
+      //   },
+      // },
     },
+
+    orderBy: {
+      created_at: "desc",
+    },
+    take: 1,
   });
-  return posts;
+  return products;
 }
 
+export type Products = Prisma.PromiseReturnType<typeof getProducts>;
+
 export const metadata = {
-  title: Life,
+  title: "Home",
 };
 
-export default async function Life() {
-  const posts = await getPosts();
+//export const dynamic = "force-dynamic";
+//export const revalidate = 60;
+
+export default async function Products() {
+  //const initialProducts = await getProducts();
+  const initialProducts = await getProducts();
+  console.log("initialProducts", initialProducts);
+  // const revalidate = async () => {
+  //   "use server";
+  //   revalidatePath("/products");
+  // };
   return (
-    <div className="p-5 flex flex-col">
-      {posts.map((post) => (
-        <PorductPost key={post.id} {...post} />
-      ))}
+    <div className="p-5 flex flex-col gap-5">
+      <ProductList initialProducts={initialProducts} />
+      <Link
+        href="/add/products"
+        className="bg-orange-500 flex items-center justify-center rounded-full size-16 fixed bottom-24 right-8 text-white transition-colors hover:bg-orange-400"
+      >
+        <PlusIcon className="size-10 " />
+      </Link>
     </div>
   );
 }
+
+//only static page will be rendered. it doesn't create static page for new record
+//export const dynamicParams = false;
+
+// export async function generateStaticParams() {
+//   const products = await db.product.findMany({
+//     select: {
+//       id: true,
+//     },
+//   });
+//   return products.map((product) => ({ id: product.id + "" }));
+//}

@@ -125,6 +125,10 @@ export default async function ProductDetail({
     redirect(`/chats/${room.id}`);
   };
 
+  const avatar = product.user.avatar
+    ? product.user.avatar
+    : "/images/avatar.png";
+
   return (
     <div className="p-5 flex flex-col gap-1">
       <div className="relative border-neutral-700 bg-neutral-600 aspect-square border-4 rounded-md flex justify-center">

@@ -51,7 +51,7 @@ export default function TabBar() {
         ) : (
           <OutlineVideoCameraIcon className="w-7 h-7" />
         )}
-        <span>Shop</span>
+        <span>Showcase</span>
       </Link>
       <Link href="/profile" className="flex flex-col items-center gap-px">
         {pathname === "/profile" ? (

@@ -31,6 +31,9 @@ export default async function Modal({ params }: { params: { id: string } }) {
   if (!product) {
     return notFound();
   }
+  const avatar = product.user.avatar
+    ? `${product.user.avatar}/avatar`
+    : "/images/avatar.png";
   return (
     <div className="absolute w-full h-full z-50 flex items-center justify-center bg-black bg-opacity-60 left-0 top-0">
       <div className="relative bg-white rounded-lg shadow-lg max-w-4xl w-full h-auto p-6">
@@ -63,7 +66,7 @@ export default async function Modal({ params }: { params: { id: string } }) {
               <div className="w-10 h-10 relative rounded-full overflow-hidden bg-gray-200">
                 <Image
                   fill
-                  src={`${product.user.avatar}/avatar`}
+                  src={avatar}
                   alt={product.user.username}
                   className="object-cover"
                 />

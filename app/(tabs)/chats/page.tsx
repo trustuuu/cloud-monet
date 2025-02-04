@@ -8,7 +8,6 @@ export type RoomListType = Prisma.PromiseReturnType<typeof getRooms>;
 export default async function Chats() {
   const session = await getSession();
   const rooms = await getRooms(session.id!);
-  console.log("rooms", rooms);
 
   return <RoomList rooms={rooms} userId={session.id!} />;
 }
