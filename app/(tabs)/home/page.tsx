@@ -61,6 +61,7 @@ export const metadata = {
 export default async function Products() {
   //const initialProducts = await getProducts();
   const initialProducts = await getProducts();
+  console.log("initialProducts", initialProducts);
   // const revalidate = async () => {
   //   "use server";
   //   revalidatePath("/products");
