@@ -95,13 +95,13 @@ export default function CommentList({
             : null}
         </Suspense>
       </div>
-      <div className="w-full flex p-5 -1 justify-start">
+      <div className="w-full flex pt-2 justify-start">
         <form action={action} className="w-full flex flex-row gap-1">
           <textarea
             id="text"
             name="new_payload"
             rows={1}
-            className="w-5/6 block pl-2 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="w-5/6 block pl-1 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="write comments"
             ref={payLoadRef}
           />

@@ -25,6 +25,7 @@ export default function ProductList({ initialProducts }: ProductProps) {
         if (element.isIntersecting && trigger.current) {
           observer.unobserve(trigger.current);
           setIsLoading(true);
+          console.log(page + 1);
           const newProducts = await getMoreProduct(page + 1);
           if (newProducts.length !== 0) {
             setPage((prev) => prev + 1);

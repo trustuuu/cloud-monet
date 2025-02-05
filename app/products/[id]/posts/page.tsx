@@ -29,7 +29,7 @@ export default async function PostDetail({
     : "/images/avatar.png";
 
   return (
-    <div className="p-5 text-white">
+    <div className="pt-5 pb-5 text-white">
       <label
         htmlFor="photo"
         className="w-full size-12 border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed bg-center bg-cover"

@@ -44,11 +44,11 @@ export default async function PorductPost({
   const user = await getUser(session.id!);
   const avatar = owner.avatar ? `${owner.avatar}/avatar` : "/images/avatar.png";
   return (
-    <div className="p-5 text-white">
+    <div className="pt-5 text-white">
       <Link
         key={id}
         href={`/post/${id}`}
-        className="pb-5 mb-5 border-b border-neutral-500 text-neutral-400 flex  flex-col gap-2 last:pb-0 last:border-b-0"
+        className="pb-5 pl-2 mb-5 border-b bg-neutral-400 rounded-lg border-neutral-500 text-neutral-400 flex  flex-col gap-2 last:pb-0 last:border-b-0"
       >
         <div className="flex items-center gap-2 mb-2">
           <Image

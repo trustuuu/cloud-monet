@@ -73,7 +73,8 @@ export default async function ProductDetail({
   if (isNaN(id)) {
     return notFound();
   }
-  const product = await getCachedProductDetail(id);
+  //const product = await getCachedProductDetail(id);
+  const product = await getProduct(id);
 
   if (!product) {
     return notFound();
@@ -217,7 +218,7 @@ export default async function ProductDetail({
           </form>
         </div>
       </div>
-      <div className="p-5 flex flex-col pb-20">
+      <div className="pt-5 flex flex-col pb-20">
         {product.posts.map((post) => (
           <PorductPost key={post.id} {...post} />
         ))}
