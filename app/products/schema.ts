@@ -26,3 +26,12 @@ export const fileSchema = z.object({
     message: "maximum image size is less then 10MB.",
   }),
 });
+
+export const postSchema = z.object({
+  title: z.string({
+    required_error: "title is required",
+  }),
+  description: z.string({
+    required_error: "description is required",
+  }),
+});

@@ -1,24 +1,10 @@
 import ButtonClose from "@/app/components/buttonClose";
-import db from "@/app/lib/db";
 import { formatToDallar } from "@/app/lib/utils";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-async function getProduct(id: number) {
-  const product = await db.product.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      user: {
-        select: {
-          username: true,
-          avatar: true,
-        },
-      },
-    },
-  });
-  return product;
-}
+import { getProductLite } from "@/app/products/productDML";
+import ButtonRedirect from "@/app/components/buttonRedirect";
+
 export default async function Modal({ params }: { params: { id: string } }) {
   const id = Number(params.id);
   if (isNaN(id)) {
@@ -27,20 +13,29 @@ export default async function Modal({ params }: { params: { id: string } }) {
     // }
     return notFound();
   }
-  const product = await getProduct(id);
+  const product = await getProductLite(id);
   if (!product) {
     return notFound();
   }
+
   const avatar = product.user.avatar
     ? `${product.user.avatar}/avatar`
     : "/images/avatar.png";
+
   return (
     <div className="absolute w-full h-full z-50 flex items-center justify-center bg-black bg-opacity-60 left-0 top-0">
       <div className="relative bg-white rounded-lg shadow-lg max-w-4xl w-full h-auto p-6">
+        {/* <Link href={`/products/${id}`}>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4 border-b pb-2">
+            See more..
+          </h1>
+        </Link> */}
+        <ButtonRedirect
+          href={`/products/detail/${id}`}
+          text="See more.."
+          className="text-2xl font-bold text-gray-900 mb-4 border-b pb-2"
+        />
         <ButtonClose />
-        <h1 className="text-2xl font-bold text-gray-900 mb-4 border-b pb-2">
-          See more..
-        </h1>
         <div className="flex flex-col md:flex-row gap-4">
           <div className="w-full md:w-1/2 h-60 md:h-80 relative rounded-lg overflow-hidden bg-gray-100">
             <Image

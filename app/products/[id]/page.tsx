@@ -13,6 +13,8 @@ import {
 import PorductPost from "@/app/components/post";
 import LikeButton from "@/app/components/like-button";
 import db from "@/app/lib/db";
+// import Link from "next/link";
+// import { NewspaperIcon } from "@heroicons/react/24/outline";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const id = Number(params.id);
@@ -72,6 +74,7 @@ export default async function ProductDetail({
     return notFound();
   }
   const product = await getCachedProductDetail(id);
+
   if (!product) {
     return notFound();
   }
@@ -97,10 +100,13 @@ export default async function ProductDetail({
 
   const onEdit = async () => {
     "use server";
-    revalidatePath("/home");
-    revalidateTag("product-detail");
     // revalidateTag("products");
     redirect(`/products/${id}/edit`);
+  };
+
+  const onAddPost = async () => {
+    "use server";
+    redirect(`/products/${id}/posts/add?photo=${product.photo}`);
   };
 
   const onCreateChatRoom = async () => {
@@ -117,6 +123,7 @@ export default async function ProductDetail({
             },
           ],
         },
+        productId: id,
       },
       select: {
         id: true,
@@ -131,6 +138,13 @@ export default async function ProductDetail({
 
   return (
     <div className="p-5 flex flex-col gap-1">
+      {/* <Link
+        href="/life"
+        className="p-5 flex gap-3 items-center border-b border-neutral-600 border-t px-5 py-3 *:text-blue-300 bg-neutral-800 "
+      >
+        <NewspaperIcon className="w-7 h-7" />
+        <span>HoodLife</span>
+      </Link> */}
       <div className="relative border-neutral-700 bg-neutral-600 aspect-square border-4 rounded-md flex justify-center">
         <Image
           fill
@@ -184,6 +198,12 @@ export default async function ProductDetail({
               <form action={onEdit}>
                 <FormButton
                   text={"Edit"}
+                  className=" bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold text-center"
+                />
+              </form>
+              <form action={onAddPost}>
+                <FormButton
+                  text={"Add Post"}
                   className=" bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold text-center"
                 />
               </form>

@@ -1,5 +1,5 @@
 import ProductList from "@/app/components/product-list";
-import db from "@/app/lib/db";
+import { getProductsWithPage } from "@/app/products/productDML";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { Prisma } from "@prisma/client";
 //import { unstable_cache as nextCache } from "next/cache";
@@ -10,46 +10,7 @@ import Link from "next/link";
 // });
 //const getCachedProducts = nextCache(getProducts, ["home-products"], {revalidate: 60});
 
-async function getProducts() {
-  //await new Promise((resolve) => setTimeout(resolve, 100000));
-
-  const products = await db.product.findMany({
-    select: {
-      title: true,
-      price: true,
-      created_at: true,
-      photo: true,
-      id: true,
-      _count: {
-        select: {
-          likes: true,
-        },
-      },
-      // posts: {
-      //   select: {
-      //     id: true,
-      //     title: true,
-      //     description: true,
-      //     views: true,
-      //     created_at: true,
-      //     _count: {
-      //       select: {
-      //         comments: true,
-      //       },
-      //     },
-      //   },
-      // },
-    },
-
-    orderBy: {
-      created_at: "desc",
-    },
-    take: 1,
-  });
-  return products;
-}
-
-export type Products = Prisma.PromiseReturnType<typeof getProducts>;
+export type Products = Prisma.PromiseReturnType<typeof getProductsWithPage>;
 
 export const metadata = {
   title: "Home",
@@ -60,8 +21,8 @@ export const metadata = {
 
 export default async function Products() {
   //const initialProducts = await getProducts();
-  const initialProducts = await getProducts();
-  console.log("initialProducts", initialProducts);
+  const initialProducts = await getProductsWithPage(1);
+
   // const revalidate = async () => {
   //   "use server";
   //   revalidatePath("/products");

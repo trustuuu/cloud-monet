@@ -4,6 +4,48 @@ import { revalidateTag } from "next/cache";
 import db from "../lib/db";
 import getSession from "../lib/session";
 
+export async function getProductsWithPage(take: number) {
+  //await new Promise((resolve) => setTimeout(resolve, 100000));
+
+  const products = await db.product.findMany({
+    select: {
+      title: true,
+      price: true,
+      created_at: true,
+      photo: true,
+      id: true,
+      _count: {
+        select: {
+          likes: true,
+        },
+      },
+    },
+
+    orderBy: {
+      created_at: "desc",
+    },
+    take: take,
+  });
+  return products;
+}
+
+export async function getProductLite(id: number) {
+  const product = await db.product.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      user: {
+        select: {
+          username: true,
+          avatar: true,
+        },
+      },
+    },
+  });
+  return product;
+}
+
 export async function getUser(id: number) {
   const user = await db.user.findUnique({
     where: { id },
@@ -15,15 +57,16 @@ export async function getUser(id: number) {
   });
   return user;
 }
+
 export async function getProduct(id: number) {
   //await new Promise((resolve) => setTimeout(resolve, 5000));
   const product = await db.product.findUnique({
     select: {
+      id: true,
       title: true,
       price: true,
       created_at: true,
       photo: true,
-      id: true,
       description: true,
       userId: true,
       _count: {
@@ -40,6 +83,7 @@ export async function getProduct(id: number) {
       posts: {
         select: {
           id: true,
+          productId: true,
           title: true,
           description: true,
           views: true,
@@ -141,6 +185,7 @@ export async function deleteComment(id: number) {
     where: { id },
   });
 }
+
 export async function addComment(_: any, formData: FormData) {
   //await new Promise((resolve) => setTimeout(resolve, 10000));
   const data = {
@@ -168,7 +213,7 @@ export async function addComment(_: any, formData: FormData) {
   return comment;
 }
 
-export const getRooms = async (userId: number) => {
+export const getRoomsByUser = async (userId: number) => {
   const rooms = await db.chatRoom.findMany({
     where: {
       users: {
@@ -183,7 +228,21 @@ export const getRooms = async (userId: number) => {
       },
     },
   });
-  console.log("rooms", rooms, "userId", userId);
+
+  return rooms;
+};
+
+export const getRoomsByProduct = async (productId: number) => {
+  const rooms = await db.chatRoom.findMany({
+    where: {
+      productId: productId,
+    },
+    include: {
+      users: {
+        select: { id: true, username: true, avatar: true },
+      },
+    },
+  });
   return rooms;
 };
 
@@ -243,6 +302,7 @@ export interface StreamProps {
   stream_key: string;
   userId: number;
 }
+
 export async function createStream(data: StreamProps) {
   const stream = await db.liveStream.create({
     data,
@@ -273,4 +333,83 @@ export async function getStream(id: number) {
     },
   });
   return stream;
+}
+
+export async function getPosts() {
+  //await new Promise((resolve) => setTimeout(resolve, 10000));
+  const posts = await db.post.findMany({
+    select: {
+      id: true,
+      productId: true,
+      title: true,
+      description: true,
+      views: true,
+      created_at: true,
+      owner: {
+        select: {
+          username: true,
+          avatar: true,
+        },
+      },
+      comments: {
+        select: {
+          payload: true,
+          owner: true,
+          created_at: true,
+          id: true,
+          userId: true,
+          postId: true,
+        },
+      },
+      userId: true,
+
+      _count: {
+        select: {
+          comments: true,
+        },
+      },
+    },
+  });
+  return posts;
+}
+
+export async function getPost(id: number) {
+  try {
+    const post = await db.post.update({
+      where: {
+        id,
+      },
+      data: {
+        views: {
+          increment: 1,
+        },
+      },
+      include: {
+        owner: {
+          select: {
+            username: true,
+            avatar: true,
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            userId: true,
+            owner: true,
+            payload: true,
+            created_at: true,
+            postId: true,
+          },
+        },
+        _count: {
+          select: {
+            comments: true,
+          },
+        },
+      },
+    });
+    return post;
+  } catch {
+    return null;
+  }
 }
