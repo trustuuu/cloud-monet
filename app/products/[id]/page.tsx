@@ -38,10 +38,10 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 //   });
 // }
 
-const getCachedProductDetail = nextCache(getProduct, ["product-detail"], {
-  revalidate: 60,
-  tags: ["product-detail"],
-});
+// const getCachedProductDetail = nextCache(getProduct, ["product-detail"], {
+//   revalidate: 60,
+//   tags: ["product-detail"],
+// });
 
 async function getLikeStatus(productId: number, sessionId: number) {
   const isLiked = await db.like.findUnique({
