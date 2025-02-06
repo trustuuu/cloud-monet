@@ -413,3 +413,43 @@ export async function getPost(id: number) {
     return null;
   }
 }
+
+export async function getPostByProduct(productId: number) {
+  const posts = await db.post.findMany({
+    where: {
+      productId,
+    },
+    select: {
+      id: true,
+      productId: true,
+      title: true,
+      description: true,
+      views: true,
+      created_at: true,
+      owner: {
+        select: {
+          username: true,
+          avatar: true,
+        },
+      },
+      comments: {
+        select: {
+          payload: true,
+          owner: true,
+          created_at: true,
+          id: true,
+          userId: true,
+          postId: true,
+        },
+      },
+      userId: true,
+
+      _count: {
+        select: {
+          comments: true,
+        },
+      },
+    },
+  });
+  return posts;
+}

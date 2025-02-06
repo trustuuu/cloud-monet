@@ -1,6 +1,6 @@
 "use client";
 import {
-  HomeIcon as SolidHomeIcon,
+  PhotoIcon as SolidPhotoIcon,
   NewspaperIcon as SolidNewspaperIcon,
   ChatBubbleOvalLeftEllipsisIcon as SolidChatIcon,
   //   VideoCameraIcon as SolidVideoCameraIcon,
@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/24/solid";
 import {
   HomeIcon as OutlineHomeIcon,
+  PhotoIcon as OutlinePhotoIcon,
   NewspaperIcon as OutlineNewspaperIcon,
   ChatBubbleOvalLeftEllipsisIcon as OutlineChatIcon,
   //   VideoCameraIcon as OutlineVideoCameraIcon,
@@ -24,7 +25,7 @@ export default function ProductTabBar() {
   const pageNode = pathname[3];
 
   return (
-    <div className="fixed bottom-0 w-full mx-auto max-w-screen-md grid grid-cols-5 border-neutral-600 border-t px-5 py-3 *:text-blue-300 bg-neutral-800">
+    <div className="fixed bottom-0 w-full mx-auto max-w-screen-md grid grid-cols-4 border-neutral-600 border-t px-5 py-3 *:text-green-300 bg-neutral-800">
       <Link href={`/home`} className="flex flex-col items-center gap-px">
         <OutlineHomeIcon className="w-7 h-7" />
         <span>Home</span>
@@ -34,11 +35,11 @@ export default function ProductTabBar() {
         className="flex flex-col items-center gap-px"
       >
         {pathname.length === 3 ? (
-          <SolidHomeIcon className="w-7 h-7" />
+          <SolidPhotoIcon className="w-7 h-7" />
         ) : (
-          <OutlineHomeIcon className="w-7 h-7" />
+          <OutlinePhotoIcon className="w-7 h-7" />
         )}
-        <span>Porduct</span>
+        <span>Product</span>
       </Link>
       <Link
         href={`/products/${productId}/posts`}
