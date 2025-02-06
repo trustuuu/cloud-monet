@@ -42,7 +42,9 @@ export default async function PorductPost({
 }: PostProps) {
   const session = await getSession();
   const user = await getUser(session.id!);
-  const avatar = owner.avatar ? `${owner.avatar}/avatar` : "/images/avatar.png";
+  const avatar = owner.avatar
+    ? `${owner.avatar}/avatar`
+    : "/static/images/avatar.png";
   return (
     <div className="pt-5 text-white">
       <Link

@@ -26,7 +26,7 @@ export default async function PostDetail({
   const product = await getProductLite(post.productId);
   const photo = product?.photo
     ? `${product?.photo}/public`
-    : "/images/avatar.png";
+    : "/static/images/avatar.png";
 
   return (
     <div className="pt-5 pb-5 text-white">

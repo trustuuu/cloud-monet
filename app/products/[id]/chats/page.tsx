@@ -17,7 +17,7 @@ export default async function ProductChats({
   const product = await getProductLite(productId);
   const photo = product?.photo
     ? `${product?.photo}/public`
-    : "/images/avatar.png";
+    : "/static/images/avatar.png";
 
   return (
     <div className="p-5 text-white">

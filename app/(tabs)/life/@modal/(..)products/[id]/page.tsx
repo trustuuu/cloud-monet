@@ -20,7 +20,7 @@ export default async function Modal({ params }: { params: { id: string } }) {
 
   const avatar = product.user.avatar
     ? `${product.user.avatar}/avatar`
-    : "/images/avatar.png";
+    : "/static/images/avatar.png";
 
   return (
     <div className="absolute w-full h-full z-50 flex items-center justify-center bg-black bg-opacity-60 left-0 top-0">

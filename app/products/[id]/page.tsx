@@ -135,7 +135,7 @@ export default async function ProductDetail({
 
   const avatar = product.user.avatar
     ? product.user.avatar
-    : "/images/avatar.png";
+    : "/static/images/avatar.png";
 
   return (
     <div className="p-5 flex flex-col gap-1">
