@@ -26,6 +26,7 @@ export default function ProductList({ initialProducts }: ProductProps) {
           observer.unobserve(trigger.current);
           setIsLoading(true);
           const newProducts = await getMoreProduct(page + 1);
+          console.log("newProducts", page + 1, newProducts);
           if (newProducts.length !== 0) {
             setPage((prev) => prev + 1);
             setProducts((prev) => [...prev, ...newProducts]);
@@ -47,7 +48,7 @@ export default function ProductList({ initialProducts }: ProductProps) {
       observer.disconnect();
     };
   }, [page]);
-
+  console.log("products", page, products);
   return (
     <div className="p-5 flex flex-col gap-5">
       {products.map((product) => (

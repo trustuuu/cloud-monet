@@ -18,6 +18,10 @@ export default function CommentComp({
   comment: CommentProps;
   onDelete: OnDeleteType;
 }) {
+  const avatar = comment.owner.avatar
+    ? `${comment.owner.avatar}/avatar`
+    : "https://imagedelivery.net/Rb4GRCDlRSth88K5U-87QA/d3e4f427-6e74-4ce9-3b48-a74ac6b9c600/public";
+
   return (
     <div
       key={comment.id}
@@ -31,17 +35,17 @@ export default function CommentComp({
 
       <div className="flex flex-col justify-end *:font-thin">
         <div className="flex flex-row gap-2 justify-end">
-          {comment.owner.avatar ? (
-            <Image
-              className="rounded-full object-contain"
-              src={`${comment.owner.avatar}/avatar`}
-              alt={comment.owner.username}
-              width={15}
-              height={15}
-            />
-          ) : (
+          {/* {comment.owner.avatar ? ( */}
+          <Image
+            className="rounded-full object-contain"
+            src={avatar}
+            alt={comment.owner.username}
+            width={15}
+            height={15}
+          />
+          {/* ) : (
             <div className="rounded-full size-8 bg-slate-400"></div>
-          )}
+          )} */}
           <div>{comment.owner.username} </div>
         </div>
         <div className="flex flex-row gap-2 justify-end">
