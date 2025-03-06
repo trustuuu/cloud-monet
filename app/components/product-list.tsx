@@ -25,14 +25,26 @@ export default function ProductList({ initialProducts }: ProductProps) {
         if (element.isIntersecting && trigger.current) {
           observer.unobserve(trigger.current);
           setIsLoading(true);
-          const newProducts = await getMoreProduct(page + 1);
-          if (newProducts.length !== 0) {
-            setPage((prev) => prev + 1);
-            setProducts((prev) => [...prev, ...newProducts]);
-          } else {
-            setIsLastPage(true);
+
+          try {
+            const newProducts = await getMoreProduct(page + 1);
+            if (newProducts.length !== 0) {
+              console.log(
+                "setProducts((prev) => [...prev, ...newProducts]);",
+                [...products, ...newProducts],
+                "next page",
+                page + 1
+              );
+              setPage((prev) => prev + 1);
+              setProducts((prev) => [...prev, ...newProducts]);
+            } else {
+              setIsLastPage(true);
+            }
+          } catch (error) {
+            console.error("Error fetching more products:", error);
+          } finally {
+            setIsLoading(false);
           }
-          setIsLoading(false);
         }
       },
       {
@@ -47,6 +59,8 @@ export default function ProductList({ initialProducts }: ProductProps) {
       observer.disconnect();
     };
   }, [page]);
+
+  console.log("final products", products);
   return (
     <div className="p-5 flex flex-col gap-5">
       {products.map((product) => (

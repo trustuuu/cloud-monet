@@ -9,7 +9,7 @@ export default function TabHome() {
       <div className="my-auto flex flex-col items-center gap-2 *:font-medium">
         <span className="text-7xl">Cloud Monet</span>
         <Image
-          src="/monet-paint.jpg" // Path relative to the 'public' folder
+          src="https://imagedelivery.net/Rb4GRCDlRSth88K5U-87QA/0138def8-3919-4c3c-c6f8-a739cbf03700/public"
           alt="Monet"
           width={500} // specify the width
           height={300} // specify the height
