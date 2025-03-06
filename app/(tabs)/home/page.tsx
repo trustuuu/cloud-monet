@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function TabHome() {
   return (
     <div
@@ -5,9 +7,20 @@ export default function TabHome() {
     justify-between min-h-screen p-6"
     >
       <div className="my-auto flex flex-col items-center gap-2 *:font-medium">
-        <span className="text-9xl">Monet</span>
-        <h1 className="text-4xl">Cloud Monet</h1>
-        <h2 className="text-2xl">Welcome to Cloud Monet!</h2>
+        <span className="text-7xl">Cloud Monet</span>
+        <Image
+          src="/monet-paint.jpg" // Path relative to the 'public' folder
+          alt="Monet"
+          width={500} // specify the width
+          height={300} // specify the height
+          className="rounded-lg" // optional for rounded corners
+        />
+        <h1 className="text-4xl">Art Marketplace Platform</h1>
+        <h4 className="text-neutral-400 w-80">
+          Welcome to Cloud Monet! Cloud Monet is a platform that introduces
+          artists' paintings to the public, making them easily accessible. All
+          proceeds go towards supporting the artists' creative activities.
+        </h4>
       </div>
       {/* <div className="flex flex-col items-center gap-3">
         <Link href="/create-account" className="primary-btn py-2.5 text-lg">
