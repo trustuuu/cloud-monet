@@ -1,5 +1,5 @@
 import ProductList from "@/app/components/product-list";
-import { getProductsWithPage } from "@/app/products/productDML";
+import { getMoreProduct } from "@/app/products/productDML";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { Prisma } from "@prisma/client";
 //import { unstable_cache as nextCache } from "next/cache";
@@ -10,7 +10,7 @@ import Link from "next/link";
 // });
 //const getCachedProducts = nextCache(getProducts, ["home-products"], {revalidate: 60});
 
-export type Products = Prisma.PromiseReturnType<typeof getProductsWithPage>;
+export type Products = Prisma.PromiseReturnType<typeof getMoreProduct>;
 
 export const metadata = {
   title: "Home",
@@ -21,7 +21,7 @@ export const metadata = {
 
 export default async function Products() {
   //const initialProducts = await getProducts();
-  const initialProducts = await getProductsWithPage(5);
+  const initialProducts = await getMoreProduct(0, 5); //getProductsWithPage(5);
 
   // const revalidate = async () => {
   //   "use server";

@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Product from "./product";
-import { getMoreProduct } from "../(tabs)/home/actions";
 import { Products } from "../(tabs)/life/page";
+import { getMoreProduct } from "../products/productDML";
 
 interface ProductProps {
   initialProducts: Products;
@@ -27,7 +27,7 @@ export default function ProductList({ initialProducts }: ProductProps) {
           setIsLoading(true);
 
           try {
-            const newProducts = await getMoreProduct(page + 1);
+            const newProducts = await getMoreProduct(page + 1, 5);
             if (newProducts.length !== 0) {
               console.log(
                 "setProducts((prev) => [...prev, ...newProducts]);",
