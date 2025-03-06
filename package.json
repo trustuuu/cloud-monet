@@ -6,7 +6,8 @@
     "dev": "WATCHPACK_POLLING=true next dev -p 3030",
     "build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:test": "next build"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

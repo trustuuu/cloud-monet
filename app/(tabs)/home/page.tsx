@@ -18,8 +18,8 @@ export default function TabHome() {
         <h1 className="text-4xl">Art Marketplace Platform</h1>
         <h4 className="text-neutral-400 w-80">
           Welcome to Cloud Monet! Cloud Monet is a platform that introduces
-          artists' paintings to the public, making them easily accessible. All
-          proceeds go towards supporting the artists' creative activities.
+          artists paintings to the public, making them easily accessible. All
+          proceeds go towards supporting the artists creative activities.
         </h4>
       </div>
       {/* <div className="flex flex-col items-center gap-3">
