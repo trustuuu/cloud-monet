@@ -15,7 +15,7 @@ export default function AddPost({
   const photo = searchParams.photo;
 
   const [state, action] = useFormState(createPost, null);
-  if (!state) var voidAction = state;
+  if (!state) let voidAction = state;
 
   return (
     <div>
