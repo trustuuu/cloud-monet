@@ -21,11 +21,6 @@ export async function updateProduct(prevState: PhotoState, formData: FormData) {
 
   const results = await productSchema.safeParseAsync(data);
   if (!results.success) {
-    console.log(
-      "Photo Edit results.error.flatten()",
-      results.error.flatten(),
-      data
-    );
     return {
       photo: formData.get("photo"),
       changed: prevState.changed,

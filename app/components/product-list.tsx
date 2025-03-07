@@ -29,12 +29,6 @@ export default function ProductList({ initialProducts }: ProductProps) {
           try {
             const newProducts = await getMoreProduct(page + 1, 5);
             if (newProducts.length !== 0) {
-              console.log(
-                "setProducts((prev) => [...prev, ...newProducts]);",
-                [...products, ...newProducts],
-                "next page",
-                page + 1
-              );
               setPage((prev) => prev + 1);
               setProducts((prev) => [...prev, ...newProducts]);
             } else {
@@ -60,7 +54,6 @@ export default function ProductList({ initialProducts }: ProductProps) {
     };
   }, [page]);
 
-  console.log("final products", products);
   return (
     <div className="p-5 flex flex-col gap-5">
       {products.map((product) => (

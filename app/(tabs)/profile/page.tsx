@@ -30,7 +30,7 @@ export default async function profile() {
     redirect("/");
   };
   return (
-    <div>
+    <div className="px-8">
       <div className="rounded-lg mt-6">
         <header className="text-center mb-6">
           {/* <Image
@@ -90,7 +90,7 @@ export default async function profile() {
           </div>
         </section> */}
 
-        <section className="mb-6">
+        <section className="mb-6 bg-neutral-500 rounded-md p-2">
           <h2 className="text-xl font-semibold mb-2">About Me</h2>
           <p>
             With over 8 years of experience in graphic design, I specialize in
@@ -100,7 +100,7 @@ export default async function profile() {
           </p>
         </section>
 
-        <section className="mb-6">
+        <section className="mb-6 bg-neutral-500 rounded-md p-2">
           <h2 className="text-xl font-semibold mb-2">Skills</h2>
           <ul className="list-disc pl-5 text-gray-700">
             <li>Adobe Photoshop & Illustrator</li>
@@ -110,7 +110,7 @@ export default async function profile() {
           </ul>
         </section>
 
-        <section>
+        <section className="bg-neutral-500 rounded-md p-2">
           <h2 className="text-xl font-semibold mb-2">Contact</h2>
           <p>Email: {user.email}</p>
           <div className="flex flex-col gap-2">

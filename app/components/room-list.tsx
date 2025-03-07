@@ -10,7 +10,6 @@ interface RoomsTypeProps {
 export default function RoomList({ rooms, userId }: RoomsTypeProps) {
   const [allRooms, setAllRooms] = useState(rooms);
   const removeRoom = (id: string) => {
-    console.log("removeRoom", id);
     setAllRooms(rooms.filter((r) => r.id !== id));
   };
   return (

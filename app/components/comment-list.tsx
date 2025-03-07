@@ -67,9 +67,7 @@ export default function CommentList({
   };
 
   const [state, action] = useFormState(interceptAction, null);
-  if (!state) {
-    console.log(state);
-  }
+  if (!state) var voidAction = state;
 
   const onDeleteComment: OnDeleteType = async (id) => {
     startTransition(async () => {

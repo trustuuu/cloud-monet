@@ -30,7 +30,6 @@ export default function ChatMessageList({
   const [message, setMessage] = useState("");
   const channel = useRef<RealtimeChannel>();
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("event onChange", event);
     const {
       target: { value },
     } = event;

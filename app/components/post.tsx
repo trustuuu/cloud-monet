@@ -50,7 +50,7 @@ export default async function PorductPost({
       <Link
         key={id}
         href={`/post/${id}`}
-        className="pb-5 pl-2 mb-5 border-b bg-neutral-400 rounded-lg border-neutral-500 text-neutral-400 flex  flex-col gap-2 last:pb-0 last:border-b-0"
+        className="pb-5 pl-2 mb-5 border-b bg-neutral-700 rounded-lg border-neutral-500 text-neutral-400 dark:text-white flex  flex-col gap-2 last:pb-0 last:border-b-0"
       >
         <div className="flex items-center gap-2 mb-2">
           <Image
@@ -67,8 +67,8 @@ export default async function PorductPost({
             </div>
           </div>
         </div>
-        <h2 className="text-white text-lg font-semibold">{title}</h2>
-        <p>{description}</p>
+        <h2 className="text-yellow-300 text-lg font-semibold">{title}</h2>
+        <p className="text-yellow-300">{description}</p>
       </Link>
       <div className="flex items-center justify-between text-sm">
         <div className="flex gap-4 items-center">

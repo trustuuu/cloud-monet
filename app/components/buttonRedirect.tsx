@@ -14,9 +14,7 @@ export default function ButtonRedirect({
 }: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) {
   const router = useRouter();
   const onClickClose = () => {
-    router.push(href); //.refresh();
-    // console.log(href, text);
-    // permanentRedirect(href);
+    router.push(href);
   };
   return (
     <>

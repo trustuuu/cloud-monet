@@ -187,32 +187,32 @@ export default async function ProductDetail({
             CAD ${formatToDallar(product.price)}
           </span>
         </div>
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-2 *:text-xs">
           {isOwner ? (
             <div className="flex justfy-center gap-2 items-end">
               <form action={onDelete}>
                 <FormButton
                   text={"Delete"}
-                  className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold text-center"
+                  className="bg-red-500 w-14 px-1 py-2.5 rounded-md text-white text-center"
                 />
               </form>
               <form action={onEdit}>
                 <FormButton
                   text={"Edit"}
-                  className=" bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold text-center"
+                  className=" bg-red-500 w-14 px-1 py-2.5 rounded-md text-white text-center"
                 />
               </form>
               <form action={onAddPost}>
                 <FormButton
                   text={"Add Post"}
-                  className=" bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold text-center"
+                  className=" bg-red-500 w-14 px-1 py-2.5 rounded-md text-white text-center"
                 />
               </form>
             </div>
           ) : null}
 
           <form action={onCreateChatRoom}>
-            <button className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold text-center">
+            <button className="bg-orange-500 w-16 px-1 py-2.5 rounded-md text-white text-center">
               Start Chat
             </button>
           </form>

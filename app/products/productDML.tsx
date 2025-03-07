@@ -49,10 +49,6 @@ export async function getMoreProduct(page: number, itemCount: number) {
     skip: page * 5,
     take: itemCount,
   });
-  console.log(
-    "product from db",
-    products.map((p) => `${p.id} : ${p.title}`)
-  );
   return products;
 }
 
@@ -207,7 +203,6 @@ export async function getMaxCommentId() {
 }
 
 export async function deleteComment(id: number) {
-  console.log("delete id", id);
   await db.comment.delete({
     where: { id },
   });
