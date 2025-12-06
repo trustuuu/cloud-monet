@@ -7,8 +7,15 @@ import { notFound } from "next/navigation";
 import { getProductLite } from "@/app/products/productDML";
 import ButtonRedirect from "@/app/components/buttonRedirect";
 
-export default async function Modal({ params }: { params: { id: string } }) {
-  const id = Number(params.id);
+export default async function Modal({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = await params;
+
+  const id = Number(resolvedParams.id); // Use resolvedParams here
+  //const id = Number(params.id);
   if (isNaN(id)) {
     // if (params.id === "add") {
     //   return redirect("/products/add");
