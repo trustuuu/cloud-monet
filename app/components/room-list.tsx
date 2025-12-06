@@ -1,10 +1,11 @@
 "use client";
-import { RoomListType } from "../(tabs)/chats/page";
+import { RoomListUserType } from "@/lib/types/products";
+//import { RoomListType } from "../(tabs)/chats/page";
 import RoomComp from "./room";
 import { useState } from "react";
 
 interface RoomsTypeProps {
-  rooms: RoomListType;
+  rooms: RoomListUserType;
   userId: number;
 }
 export default function RoomList({ rooms, userId }: RoomsTypeProps) {
