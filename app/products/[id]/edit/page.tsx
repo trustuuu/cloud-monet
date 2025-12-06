@@ -6,9 +6,13 @@ import ProductEditForm from "@/app/components/product-edit-form";
 
 //export type EditProductType = Prisma.PromiseReturnType<typeof getProduct>;
 
-export default async function EditPost({ params }: { params: Promise<{ id: string }> } }) {
+export default async function EditPost({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const resolvedParams = await params;
-  const id = Number(resolvedParams.id)
+  const id = Number(resolvedParams.id);
   if (!id) {
     notFound();
   }
