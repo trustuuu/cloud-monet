@@ -18,30 +18,13 @@ import db from "@/app/lib/db";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const id = Number(params.id);
-  //let title = "";
-  // if (isNaN(id)) {
-  //   title = "Product";
-  // }
+
   const product = await getProduct(id);
 
   return {
     title: product?.title,
   };
 }
-
-// async function getProductREST(id: number) {
-//   await fetch("https://api.test", {
-//     next: {
-//       revalidate: 60,
-//       tags: ["hello"],
-//     },
-//   });
-// }
-
-// const getCachedProductDetail = nextCache(getProduct, ["product-detail"], {
-//   revalidate: 60,
-//   tags: ["product-detail"],
-// });
 
 async function getLikeStatus(productId: number, sessionId: number) {
   const isLiked = await db.like.findUnique({
