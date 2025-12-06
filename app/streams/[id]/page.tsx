@@ -7,9 +7,11 @@ import getSession from "@/app/lib/session";
 export default async function StreamDetail({
   params,
 }: {
-  params: { id: number };
+  params: Promise<{ id: number }>;
 }) {
-  const id = Number(params.id);
+  const resolvedParams = await params;
+  const id = Number(resolvedParams.id);
+
   if (isNaN(id)) {
     return notFound();
   }
