@@ -3,7 +3,7 @@ export default function LifeLayout({
   modal,
 }: {
   children: React.ReactNode;
-  modal?: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <>
