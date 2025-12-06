@@ -4,7 +4,6 @@ import getSession from "@/app/lib/session";
 import { getProductLite, getRoomsByProduct } from "../../productDML";
 
 //export type RoomListType = Prisma.PromiseReturnType<typeof getRoomsByProduct>;
-export type RoomListType = Awaited<ReturnType<typeof getRoomsByProduct>>;
 
 export default async function ProductChats({
   params,

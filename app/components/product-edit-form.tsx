@@ -6,10 +6,11 @@ import { PhotoIcon } from "@heroicons/react/20/solid";
 
 import { useFormState } from "react-dom";
 import { fileSchema } from "../products/schema";
-import { EditProductType } from "../products/[id]/edit/page";
+//import { EditProductType } from "../products/[id]/edit/page";
 import { updateProduct } from "../products/[id]/edit/actions";
 import { getUploadUrl } from "../add/products/action";
 import { useState } from "react";
+import { EditProductType } from "@/lib/types/products";
 
 interface ProductProps {
   product: EditProductType;

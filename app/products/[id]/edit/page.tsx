@@ -5,7 +5,6 @@ import ProductEditForm from "@/app/components/product-edit-form";
 //import { Prisma } from "@prisma/client";
 
 //export type EditProductType = Prisma.PromiseReturnType<typeof getProduct>;
-export type EditProductType = Awaited<ReturnType<typeof getProduct>>;
 
 export default async function EditPost({ params }: { params: { id: string } }) {
   const id = Number(params.id);

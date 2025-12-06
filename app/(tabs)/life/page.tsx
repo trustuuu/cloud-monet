@@ -1,8 +1,7 @@
 import ProductList from "@/app/components/product-list";
 import { getMoreProduct } from "@/app/products/productDML";
 import { PlusIcon } from "@heroicons/react/20/solid";
-//import { Prisma } from "@prisma/client";
-//import { unstable_cache as nextCache } from "next/cache";
+
 import Link from "next/link";
 
 // const getCachedProducts = nextCache(getProducts, ["products"], {
@@ -11,7 +10,6 @@ import Link from "next/link";
 //const getCachedProducts = nextCache(getProducts, ["home-products"], {revalidate: 60});
 
 //export type Products = Prisma.PromiseReturnType<typeof getMoreProduct>;
-export type Products = Awaited<ReturnType<typeof getMoreProduct>>;
 
 export const metadata = {
   title: "Home",
@@ -21,13 +19,8 @@ export const metadata = {
 //export const revalidate = 60;
 
 export default async function Products() {
-  //const initialProducts = await getProducts();
   const initialProducts = await getMoreProduct(0, 5); //getProductsWithPage(5);
 
-  // const revalidate = async () => {
-  //   "use server";
-  //   revalidatePath("/products");
-  // };
   return (
     <div className="p-5 flex flex-col gap-5">
       <ProductList initialProducts={initialProducts} />
@@ -40,15 +33,3 @@ export default async function Products() {
     </div>
   );
 }
-
-//only static page will be rendered. it doesn't create static page for new record
-//export const dynamicParams = false;
-
-// export async function generateStaticParams() {
-//   const products = await db.product.findMany({
-//     select: {
-//       id: true,
-//     },
-//   });
-//   return products.map((product) => ({ id: product.id + "" }));
-//}

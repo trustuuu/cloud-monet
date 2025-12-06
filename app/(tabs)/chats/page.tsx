@@ -4,7 +4,6 @@ import { getRoomsByUser } from "@/app/products/productDML";
 //import { Prisma } from "@prisma/client";
 
 //export type RoomListType = Prisma.PromiseReturnType<typeof getRoomsByUser>;
-export type RoomListType = Awaited<ReturnType<typeof getRoomsByUser>>;
 
 export default async function Chats() {
   const session = await getSession();

@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import Product from "./product";
-import { Products } from "../(tabs)/life/page";
+//import { Products } from "../(tabs)/life/page";
 import { getMoreProduct } from "../products/productDML";
+import { Products } from "@/lib/types/products";
 
 interface ProductProps {
   initialProducts: Products;

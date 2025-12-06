@@ -1,11 +1,12 @@
 "use client";
-import { initialMessagesType } from "../chats/[id]/page";
+//import { initialMessagesType } from  "../chats/[id]/page";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { formatToTimeAgo } from "../lib/utils";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { createClient, RealtimeChannel } from "@supabase/supabase-js";
 import { saveMessage } from "../chats/[id]/actions";
+import { initialMessagesType } from "@/lib/types/products";
 
 interface ChatMessageListProp {
   initialMessages: initialMessagesType;
