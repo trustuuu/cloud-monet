@@ -1,3 +1,5 @@
+"use server";
+
 import ButtonClose from "@/app/components/buttonClose";
 import { formatToDallar } from "@/app/lib/utils";
 import Image from "next/image";

@@ -1,7 +1,7 @@
 import ProductList from "@/app/components/product-list";
 import { getMoreProduct } from "@/app/products/productDML";
 import { PlusIcon } from "@heroicons/react/20/solid";
-import { Prisma } from "@prisma/client";
+//import { Prisma } from "@prisma/client";
 //import { unstable_cache as nextCache } from "next/cache";
 import Link from "next/link";
 
@@ -12,7 +12,6 @@ import Link from "next/link";
 
 //export type Products = Prisma.PromiseReturnType<typeof getMoreProduct>;
 export type Products = Awaited<ReturnType<typeof getMoreProduct>>;
-//export type Products = Prisma.Result<typeof getMoreProduct>;
 
 export const metadata = {
   title: "Home",

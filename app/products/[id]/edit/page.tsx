@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getProduct } from "../../productDML";
 import { IsOwner } from "@/app/lib/session";
 import ProductEditForm from "@/app/components/product-edit-form";
-import { Prisma } from "@prisma/client";
+//import { Prisma } from "@prisma/client";
 
 //export type EditProductType = Prisma.PromiseReturnType<typeof getProduct>;
 export type EditProductType = Awaited<ReturnType<typeof getProduct>>;

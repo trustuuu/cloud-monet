@@ -1,9 +1,10 @@
 import RoomList from "@/app/components/room-list";
 import getSession from "@/app/lib/session";
 import { getRoomsByUser } from "@/app/products/productDML";
-import { Prisma } from "@prisma/client";
+//import { Prisma } from "@prisma/client";
 
-export type RoomListType = Prisma.PromiseReturnType<typeof getRoomsByUser>;
+//export type RoomListType = Prisma.PromiseReturnType<typeof getRoomsByUser>;
+export type RoomListType = Awaited<ReturnType<typeof getRoomsByUser>>;
 
 export default async function Chats() {
   const session = await getSession();

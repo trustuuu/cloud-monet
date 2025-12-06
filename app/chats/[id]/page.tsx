@@ -1,7 +1,7 @@
 import ChatMessageList from "@/app/components/message-list";
 import getSession from "@/app/lib/session";
 import { getMessage, getRoom, getUser } from "@/app/products/productDML";
-import { Prisma } from "@prisma/client";
+//import { Prisma } from "@prisma/client";
 import { notFound } from "next/navigation";
 
 //export type initialMessagesType = Prisma.PromiseReturnType<typeof getMessage>;

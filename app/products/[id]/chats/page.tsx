@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+//import { Prisma } from "@prisma/client";
 import RoomList from "@/app/components/room-list";
 import getSession from "@/app/lib/session";
 import { getProductLite, getRoomsByProduct } from "../../productDML";
