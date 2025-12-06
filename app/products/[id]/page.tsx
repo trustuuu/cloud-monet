@@ -16,8 +16,9 @@ import db from "@/app/lib/db";
 // import Link from "next/link";
 // import { NewspaperIcon } from "@heroicons/react/24/outline";
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const id = Number(params.id);
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const id = Number(resolvedParams.id)
 
   const product = await getProduct(id);
 

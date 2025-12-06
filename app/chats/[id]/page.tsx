@@ -6,8 +6,14 @@ import { notFound } from "next/navigation";
 
 //export type initialMessagesType = Prisma.PromiseReturnType<typeof getMessage>;
 
-export default async function ChatRoom({ params }: { params: { id: string } }) {
-  const room = await getRoom(params.id);
+export default async function ChatRoom({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const resolvedParams = await params;
+  const room = Number(resolvedParams.id);
+
   if (!room) {
     notFound();
   }
