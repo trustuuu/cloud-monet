@@ -4,7 +4,8 @@ import { getMessage, getRoom, getUser } from "@/app/products/productDML";
 import { Prisma } from "@prisma/client";
 import { notFound } from "next/navigation";
 
-export type initialMessagesType = Prisma.PromiseReturnType<typeof getMessage>;
+//export type initialMessagesType = Prisma.PromiseReturnType<typeof getMessage>;
+export type initialMessagesType = Awaited<ReturnType<typeof getMessage>>;
 
 export default async function ChatRoom({ params }: { params: { id: string } }) {
   const room = await getRoom(params.id);

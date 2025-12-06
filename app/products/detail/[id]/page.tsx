@@ -1,3 +1,5 @@
+"use server";
+
 import { notFound, redirect } from "next/navigation";
 
 export default async function ProductRedirectToDetail({
@@ -12,6 +14,4 @@ export default async function ProductRedirectToDetail({
   }
 
   redirect(`/products/${id}`);
-
-  return <></>;
 }

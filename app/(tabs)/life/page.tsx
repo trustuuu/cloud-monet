@@ -10,7 +10,9 @@ import Link from "next/link";
 // });
 //const getCachedProducts = nextCache(getProducts, ["home-products"], {revalidate: 60});
 
-export type Products = Prisma.PromiseReturnType<typeof getMoreProduct>;
+//export type Products = Prisma.PromiseReturnType<typeof getMoreProduct>;
+export type Products = Awaited<ReturnType<typeof getMoreProduct>>;
+//export type Products = Prisma.Result<typeof getMoreProduct>;
 
 export const metadata = {
   title: "Home",
