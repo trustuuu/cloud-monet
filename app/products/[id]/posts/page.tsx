@@ -11,9 +11,10 @@ import { getPostByProduct, getProductLite } from "../../productDML";
 export default async function ProductPosts({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const productId = Number(params.id);
+  const resolvedParams = await params;
+  const productId = Number(resolvedParams.id);
 
   if (isNaN(productId)) {
     return notFound();

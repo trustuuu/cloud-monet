@@ -11,9 +11,11 @@ const getCachedPost = nextCache(getPost, ["post-detail"], {
 export default async function PostDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const id = Number(params.id);
+  //const id = Number(params.id);
+  const resolvedParams = await params;
+  const id = Number(resolvedParams.id);
 
   if (isNaN(id)) {
     return notFound();

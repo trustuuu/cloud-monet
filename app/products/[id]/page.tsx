@@ -49,9 +49,10 @@ async function getLikeStatus(productId: number, sessionId: number) {
 export default async function ProductDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const id = Number(params.id);
+  const resolvedParams = await params;
+  const id = Number(resolvedParams.id);
 
   if (isNaN(id)) {
     return notFound();

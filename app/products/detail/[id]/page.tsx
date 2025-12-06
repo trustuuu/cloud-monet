@@ -5,9 +5,10 @@ import { notFound, redirect } from "next/navigation";
 export default async function ProductRedirectToDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const id = Number(params.id);
+  const resolvedParams = await params;
+  const id = Number(resolvedParams.id);
 
   if (isNaN(id)) {
     return notFound();

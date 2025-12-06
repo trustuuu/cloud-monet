@@ -8,9 +8,11 @@ import { getProductLite, getRoomsByProduct } from "../../productDML";
 export default async function ProductChats({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const productId = Number(params.id);
+  const resolvedParams = await params;
+  const productId = Number(resolvedParams.id);
+
   const session = await getSession();
   const rooms = await getRoomsByProduct(productId);
 

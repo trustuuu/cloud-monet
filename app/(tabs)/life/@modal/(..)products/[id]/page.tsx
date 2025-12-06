@@ -13,7 +13,6 @@ export default async function Modal({
   params: Promise<{ id: string }>;
 }) {
   const resolvedParams = await params;
-
   const id = Number(resolvedParams.id); // Use resolvedParams here
   //const id = Number(params.id);
   if (isNaN(id)) {
