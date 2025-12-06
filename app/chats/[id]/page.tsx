@@ -12,13 +12,13 @@ export default async function ChatRoom({
   params: Promise<{ id: string }>;
 }) {
   const resolvedParams = await params;
-  const room = Number(resolvedParams.id);
+  const id = resolvedParams.id;
 
-  if (!room) {
+  if (!id) {
     notFound();
   }
 
-  const initialMessages = await getMessage(params.id);
+  const initialMessages = await getMessage(id);
   const session = await getSession();
   const user = await getUser(session.id!);
   if (!user) {
@@ -31,7 +31,7 @@ export default async function ChatRoom({
       userId={session.id!}
       username={user.username}
       avatar={user.avatar!}
-      chatRoomId={params.id}
+      chatRoomId={id}
     />
   );
 }
