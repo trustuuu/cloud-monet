@@ -4,15 +4,20 @@ import Input from "@/app/components/input";
 import { useFormState } from "react-dom";
 import { createPost } from "./actions";
 
-export default function AddPost({
+export default async function AddPost({
   params,
   searchParams,
 }: {
-  params: { id: number };
-  searchParams: { photo: string };
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ photo: string }>;
 }) {
-  const id = params.id;
-  const photo = searchParams.photo;
+  const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
+  const id = Number(resolvedParams.id);
+  const photo = Number(resolvedSearchParams.photo);
+
+  // const id = params.id;
+  // const photo = searchParams.photo;
 
   const [state, action] = useFormState(createPost, null);
   if (!state) console.log("ignore", state);
