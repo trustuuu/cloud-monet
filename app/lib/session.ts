@@ -4,8 +4,11 @@ import { cookies } from "next/headers";
 interface SessionContent {
   id?: number;
 }
+
 export default async function getSession() {
-  return await getIronSession<SessionContent>(cookies(), {
+  const cookieStore = await cookies(); // ✅ await required
+
+  return await getIronSession<SessionContent>(cookieStore, {
     cookieName: process.env.COOKIE_NAME!,
     password: process.env.COOKIE_PASSWORD!,
   });

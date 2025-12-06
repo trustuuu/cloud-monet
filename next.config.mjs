@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    optimizePackageImports: ["lodash"],
+  },
   logging: {
     fetches: {
       fullUrl: true,
